@@ -1,5 +1,8 @@
 package subway;
 
+import subway.domain.Station;
+import subway.domain.StationRepository;
+
 public class StationView extends View{
     private static final String AFTER_SELECT_STATION_MANAGE_MESSAGE = "## 역 관리 화면 ";
     private static final String ADD_STATION_GUIDE_MESSAGE = "1. 역 등록";
@@ -14,6 +17,7 @@ public class StationView extends View{
 
     //1 입력
     public void showStationMenuGuide() {
+        System.out.println();
         System.out.println(AFTER_SELECT_STATION_MANAGE_MESSAGE);
         System.out.println(ADD_STATION_GUIDE_MESSAGE);
         System.out.println(REMOVE_STATION_GUIDE_MESSAGE);
@@ -44,7 +48,10 @@ public class StationView extends View{
     }
 
     //1->3 입력. 추가 구현 필요.
-    public void showStationAllMessage() {
+    public void showStationAllMessage(StationRepository stationRepository) {
         System.out.println(STATION_LIST_MESSAGE);
+        for(Station station : stationRepository.getStations()) {
+            System.out.println(INFO_MESSAGE + station.getName());
+        }
     }
 }
