@@ -13,6 +13,7 @@ public class SectionView extends View{
 
     //3 입력
     public void showSectorMenuGuide() {
+        System.out.println();
         System.out.println(AFTER_SELECT_SECTOR_MANAGE_MESSAGE);
         System.out.println(ADD_SECTOR_GUIDE_MESSAGE);
         System.out.println(REMOVE_SECTOR_GUIDE_MESSAGE);

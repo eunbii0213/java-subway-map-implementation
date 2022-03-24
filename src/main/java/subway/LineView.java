@@ -15,6 +15,7 @@ public class LineView extends View{
 
     //2 입력
     public void showLineMenuGuide() {
+        System.out.println();
         System.out.println(AFTER_SELECT_LINE_MANAGE_MESSAGE);
         System.out.println(ADD_LINE_GUIDE_MESSAGE);
         System.out.println(REMOVE_LINE_GUIDE_MESSAGE);

@@ -12,6 +12,7 @@ public class View {
     protected static final String SELECT_GUIDE_MESSAGE = "## 원하는 기능을 선택하세요.";
 
     public void showMainGuide() {
+        System.out.println();
         System.out.println(MAIN_MESSAGE);
         System.out.println(STATION_MANAGE_GUIDE_MESSAGE);
         System.out.println(LINE_MANAGE_GUIDE_MESSAGE);
@@ -19,6 +20,10 @@ public class View {
         System.out.println(SHOW_LINE_GUIDE_MESSAGE);
         System.out.println(QUIT_GUIDE_MESSAGE);
         System.out.println();
+        showSelectGuideMessage();
+    }
+
+    public void showSelectGuideMessage(){
         System.out.println(SELECT_GUIDE_MESSAGE);
     }
 }

@@ -49,6 +49,7 @@ public class Checker {
                 return true;
             }
         } catch (NumberFormatException e) {
+            errorView.userInputError();
             return true;
         }
         return false;
