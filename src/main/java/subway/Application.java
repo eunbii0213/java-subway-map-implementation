@@ -23,8 +23,7 @@ public class Application {
         while (true) {
             view.showMainGuide(); //메인화면 출력
             input = user.userInput(scanner); // 유저 입력
-            controller.startSubwayMap(input, view, scanner, user, lineRepository, stationRepository);
-
+            controller.startSubwayMap(input, scanner, user, lineRepository, stationRepository);
         }
     }
 }

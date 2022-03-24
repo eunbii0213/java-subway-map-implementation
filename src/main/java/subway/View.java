@@ -2,7 +2,6 @@ package subway;
 
 public class View {
     protected static final String INFO_MESSAGE = "[INFO] ";
-    protected static final String ERROR_MESSAGE = "[ERROR] ";
     protected static final String QUIT_GUIDE_MESSAGE = "Q. 종료";
     protected static final String GO_BACK_GUIDE_MESSAGE = "B. 돌아가기";
 
