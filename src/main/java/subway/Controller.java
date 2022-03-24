@@ -34,21 +34,18 @@ public class Controller {
                 break;
             }
             if (input.equals(OPTION_ONE)) {
-                //역 등록옵션
                 stationOptionOne(stationView, checker, user, scanner, stationRepository);
                 continue;
             }
             if (input.equals(OPTION_TWO)) {
-                //역 삭제옵션
                 stationOptionTwo(stationView, checker, user, scanner, stationRepository, lineRepository);
                 continue;
             }
             if (input.equals(OPTION_THREE)) {
-                //역 조회옵션
                 stationView.showStationAllMessage(stationRepository);
                 continue;
             }
-        }//while문 끝
+        }
     }
 
     public void stationOptionOne(StationView stationView, Checker checker, User user, Scanner scanner, StationRepository stationRepository) {

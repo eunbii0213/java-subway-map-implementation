@@ -21,8 +21,8 @@ public class Application {
         String input = "";
         Controller controller = new Controller();
         while (true) {
-            view.showMainGuide(); //메인화면 출력
-            input = user.userInput(scanner); // 유저 입력
+            view.showMainGuide();
+            input = user.userInput(scanner);
             controller.startSubwayMap(input, scanner, user, lineRepository, stationRepository);
         }
     }

@@ -18,6 +18,4 @@ public class Line {
     public String getName() {
         return name;
     }
-
-
 }
