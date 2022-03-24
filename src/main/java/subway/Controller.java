@@ -8,9 +8,9 @@ public class Controller {
     private static final String OPTION_ONE = "1";
     private static final String OPTION_TWO = "2";
     private static final String OPTION_THREE = "3";
-    private static final String OPTION_FOUR = "4";
+    private static final int STATION_OPTION_START = 1;
+    private static final int STATION_OPTION_END = 4;
     private static final String GO_BACK = "B";
-    private static final int INITIAL_INDEX = 0;
 
     public void startSubwayMap(String input, Scanner scanner, User user, LineRepository lineRepository, StationRepository stationRepository) {
         if (input.equals(OPTION_ONE)) {
@@ -26,7 +26,7 @@ public class Controller {
             stationView.showStationMenuGuide();
             String input = scanner.nextLine();
 
-            if (checker.checkUserInputIsNotValid(input, 1, 4)) {
+            if (checker.checkUserInputIsNotValid(input, STATION_OPTION_START, STATION_OPTION_END)) {
                 continue;
             }
 
@@ -48,7 +48,6 @@ public class Controller {
                 stationView.showStationAllMessage(stationRepository);
                 continue;
             }
-
         }//while문 끝
     }
 
