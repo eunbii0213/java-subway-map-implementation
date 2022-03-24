@@ -8,6 +8,17 @@ public class Checker {
     ErrorView errorView = new ErrorView();
     private static final int INITIAL_INDEX = 0;
 
+    public void stationAddUserInputChecker(String userInput, StationRepository stationRepository) {
+        boolean check = false;
+        while (!check) {
+            check = isLengthOverTwo(userInput);
+            if(check){
+                continue;
+            }
+            check = isSameName(userInput, stationRepository);
+        }
+    }
+
     public boolean isContainStationInLine(LineRepository lineRepository, String userStationInput) {
         for (int index = INITIAL_INDEX; index < lineRepository.lines().size(); index++) {
             Line nowLine = lineRepository.getLines(index);
@@ -19,6 +30,14 @@ public class Checker {
             }
         }
         return false;
+    }
+
+    public boolean isLengthOverTwo(String userInput) {
+        if (userInput.length() < 2) {
+            errorView.userInputLengthError();
+            return false;
+        }
+        return true;
     }
 
     public boolean isSameName(String userInput, StationRepository stationRepository) {

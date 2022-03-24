@@ -56,9 +56,11 @@ public class Controller {
         //역 등록옵션
         stationView.showStationInsertGuide();
         String userStationNameInput = user.userInput(scanner);
-        if (!checker.isSameName(userStationNameInput, stationRepository)) {
-            stationRepository.addStation(new Station(userStationNameInput));
-            stationView.showStationInsertComplete();
+        if(checker.isLengthOverTwo(userStationNameInput)) {
+            if (!checker.isSameName(userStationNameInput, stationRepository)) {
+                stationRepository.addStation(new Station(userStationNameInput));
+                stationView.showStationInsertComplete();
+            }
         }
     }
 
@@ -70,6 +72,4 @@ public class Controller {
             stationView.showStationRemoveComplete();
         }
     }
-
-
 }
