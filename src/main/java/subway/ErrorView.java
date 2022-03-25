@@ -10,27 +10,32 @@ public class ErrorView extends View {
     private static final String REMOVE_SECTION_ERROR_MESSAGE ="역이 두 개 이하인 노선은 역을 삭제할 수 없습니다.";
 
     public static void removeErrorStationInLine() {
+        System.out.println();
         System.out.println(ERROR_MESSAGE + REMOVE_ERROR_MESSAGE);
     }
 
     public static void userInputError() {
+        System.out.println();
        System.out.println(ERROR_MESSAGE + USER_INPUT_ERROR_MESSAGE);
     }
 
     public static void userInputLengthError(){
+        System.out.println();
         System.out.println(ERROR_MESSAGE + USER_INPUT_LENGTH_ERROR_MESSAGE);
     }
 
     public static void addSameStationError(){
+        System.out.println();
         System.out.println(ERROR_MESSAGE+ ADD_STATION_ERROR_MESSAGE);
 
     }
     public static void addSameLineError(){
+        System.out.println();
         System.out.println(ERROR_MESSAGE+ADD_LINE_ERROR_MESSAGE);
     }
 
     public static void getErrorView(){
+        System.out.println();
         System.out.println(ERROR_MESSAGE + REMOVE_SECTION_ERROR_MESSAGE);
     }
-
 }

@@ -1,6 +1,13 @@
 package subway;
 
+import subway.domain.LineRepository;
+import subway.domain.Station;
+import subway.domain.StationRepository;
+
+import java.util.stream.IntStream;
+
 public class View {
+    private static final int INITIAL_INDEX = 0;
     protected static final String INFO_MESSAGE = "[INFO] ";
     protected static final String QUIT_GUIDE_MESSAGE = "Q. 종료";
     protected static final String GO_BACK_GUIDE_MESSAGE = "B. 돌아가기";
@@ -10,6 +17,8 @@ public class View {
     protected static final String SECTION_MANAGE_GUIDE_MESSAGE = "3. 구간 관리";
     protected static final String SHOW_LINE_GUIDE_MESSAGE = "4. 지하철 노선도 출력";
     protected static final String SELECT_GUIDE_MESSAGE = "## 원하는 기능을 선택하세요.";
+    protected static final String PRINT_HYPHEN = "---";
+    private static final String SHOW_ALL_LINES_AND_STATIONS_MESSAGE = "## 지하철 노선도";
 
     public void showMainGuide() {
         System.out.println();
@@ -23,7 +32,21 @@ public class View {
         showSelectGuideMessage();
     }
 
-    public void showSelectGuideMessage(){
+    public void showSelectGuideMessage() {
         System.out.println(SELECT_GUIDE_MESSAGE);
+    }
+
+    public void printAllLineAndStationInfo(LineRepository lineRepository) {
+        System.out.println();
+        System.out.println(SHOW_ALL_LINES_AND_STATIONS_MESSAGE);
+        for (int index = INITIAL_INDEX; index < lineRepository.lines().size(); index++) {
+            System.out.println(INFO_MESSAGE + lineRepository.lines().get(index).getName());
+            System.out.println(INFO_MESSAGE + PRINT_HYPHEN);
+
+            for (int stationIndex = INITIAL_INDEX; stationIndex < lineRepository.lines().get(index).getSubwayMap().size(); stationIndex++) {
+                System.out.println(INFO_MESSAGE + lineRepository.lines().get(index).getSubwayMap().get(stationIndex).getName());
+            }
+            System.out.println();
+        }
     }
 }

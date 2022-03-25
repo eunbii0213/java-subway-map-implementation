@@ -35,9 +35,11 @@ public class Line {
     }
 
     public void changeEndStationAfterRemoveEndStation(int index, int stationIndex, StationRepository stationRepository){
-        Station station = stationRepository.getStations().get(stationIndex+1);
-        subwayMap.remove(index);
-        subwayMap.add(station);
+        if(stationIndex<stationRepository.stations().size()) {
+            Station station = stationRepository.getStations().get(stationIndex + 1);
+            subwayMap.remove(index);
+            subwayMap.add(station);
+        }
     }
 
     public int searchTargetIndexInLine(String target, StationRepository stationRepository) {

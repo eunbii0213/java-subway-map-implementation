@@ -5,10 +5,10 @@ import subway.domain.LineRepository;
 import subway.domain.StationRepository;
 
 public class Checker {
+    private static final String GO_BACK = "B";
     ErrorView errorView = new ErrorView();
     private static final int INITIAL_INDEX = 0;
     private static final int MINIMUM_LENGTH=2;
-    //private static final int
 
     public boolean isContainStationInLine(LineRepository lineRepository, String userStationInput) {
         for (int index = INITIAL_INDEX; index < lineRepository.lines().size(); index++) {
@@ -60,13 +60,15 @@ public class Checker {
         int userInputToInt;
         try {
             userInputToInt = Integer.parseInt(userInput);
-            if (userInputToInt < optionStart || userInputToInt > optionEnd) {
+            if ((userInputToInt < optionStart || userInputToInt > optionEnd)) {
                 errorView.userInputError();
                 return true;
             }
         } catch (NumberFormatException e) {
-            errorView.userInputError();
-            return true;
+            if(!userInput.equals(GO_BACK)){
+                errorView.userInputError();
+                return true;
+            }
         }
         return false;
     }

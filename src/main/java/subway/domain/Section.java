@@ -1,19 +1,20 @@
 package subway.domain;
 
 public class Section {
-    public static final int FIND_ERROR = -1;
+    private static final int FIND_ERROR = -1;
+    private static final int INITIAL_INDEX = 0;
 
-    public static int findLineIndexFromLines(LineRepository lineRepository, String userInput) {
-        for (int index = 0; index < lineRepository.lines().size(); index++) {
+    public static Line findLineIndexFromLines(LineRepository lineRepository, String userInput) {
+        for (int index = INITIAL_INDEX; index < lineRepository.lines().size(); index++) {
             if (lineRepository.getLines(index).getName().equals(userInput)) {
-                return index;
+                return lineRepository.getLines(index);
             }
         }
-        return FIND_ERROR;
+        return lineRepository.getLines(FIND_ERROR);
     }
 
     public static int findStationIndexFromStations(StationRepository stationRepository, String userInput) {
-        for (int index = 0; index < stationRepository.getStations().size(); index++) {
+        for (int index = INITIAL_INDEX; index < stationRepository.getStations().size(); index++) {
             if (stationRepository.getStations().get(index).getName().equals(userInput)) {
                 return index;
             }

@@ -22,29 +22,34 @@ public class StationView extends View{
         System.out.println(SHOW_ALL_STATIONS_GUIDE_MESSAGE);
         System.out.println(GO_BACK_GUIDE_MESSAGE);
         System.out.println();
-        System.out.println(SELECT_GUIDE_MESSAGE);
     }
 
     public void showStationInsertGuide() {
+        System.out.println();
         System.out.println(STATION_INSERT_GUIDE_MESSAGE);
     }
 
     public void showStationInsertComplete() {
+        System.out.println();
         System.out.println(INFO_MESSAGE + STATION_INSERT_COMPLETE_MESSAGE);
     }
 
     public void showStationRemoveGuide() {
+        System.out.println();
         System.out.println(STATION_REMOVE_GUIDE_MESSAGE);
     }
 
     public void showStationRemoveComplete() {
+        System.out.println();
         System.out.println(INFO_MESSAGE + STATION_REMOVE_COMPLETE_MESSAGE);
     }
 
-    public void showStationAllMessage(StationRepository stationRepository) {
+    public boolean showStationAllMessage(StationRepository stationRepository) {
+        System.out.println();
         System.out.println(STATION_LIST_MESSAGE);
         for(Station station : stationRepository.getStations()) {
             System.out.println(INFO_MESSAGE + station.getName());
         }
+        return false;
     }
 }

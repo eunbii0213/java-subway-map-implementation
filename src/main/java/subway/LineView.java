@@ -1,6 +1,5 @@
 package subway;
 
-import org.omg.CORBA.INITIALIZE;
 import subway.domain.Line;
 import subway.domain.LineRepository;
 
@@ -17,7 +16,6 @@ public class LineView extends View {
     private static final String LINE_REMOVE_GUIDE_MESSAGE = "## 삭제할 노선 이름을 입력하세요.";
     private static final String LINE_REMOVE_COMPLETE_MESSAGE = "지하철 노선이 삭제되었습니다.";
 
-    //2 입력
     public void showLineMenuGuide() {
         System.out.println();
         System.out.println(AFTER_SELECT_LINE_MANAGE_MESSAGE);
@@ -26,45 +24,44 @@ public class LineView extends View {
         System.out.println(SHOW_ALL_LINE_GUIDE_MESSAGE);
         System.out.println(GO_BACK_GUIDE_MESSAGE);
         System.out.println();
-        System.out.println(SELECT_GUIDE_MESSAGE);
     }
 
-    //2->1 입력
     public void showLineInsertNameGuide() {
+        System.out.println();
         System.out.println(LINE_INSERT_NAME_GUIDE_MESSAGE);
     }
 
-    //2->1 입력
     public void showInsertStartStationInLineGuide() {
+        System.out.println();
         System.out.println(LINE_INSERT_START_STATION_GUIDE_MESSAGE);
     }
 
-    //2->1 입력
     public void showInsertEndStationInLineGuide() {
+        System.out.println();
         System.out.println(LINE_INSERT_END_STATION_GUIDE_MESSAGE);
     }
 
-    //2->1 입력
     public void showLineInsertComplete() {
+        System.out.println();
         System.out.println(INFO_MESSAGE + LINE_INSERT_COMPLETE_MESSAGE);
     }
 
-    //2->2 입력
     public void showLineRemoveGuide() {
+        System.out.println();
         System.out.println(LINE_REMOVE_GUIDE_MESSAGE);
     }
 
-    //2->2 입력
     public void showLineRemoveComplete() {
+        System.out.println();
         System.out.println(INFO_MESSAGE + LINE_REMOVE_COMPLETE_MESSAGE);
     }
 
-    //2->3 입력. 추가구현 필요
-    public void showLineAllMessage(LineRepository lineRepository) {
+    public boolean showLineAllMessage(LineRepository lineRepository) {
+        System.out.println();
         System.out.println(LINE_LIST_MESSAGE);
         for (Line line : lineRepository.lines()) {
             System.out.println(INFO_MESSAGE + line.getName());
         }
-
+        return false;
     }
 }
