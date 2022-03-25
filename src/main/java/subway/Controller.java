@@ -57,7 +57,7 @@ public class Controller {
                 continue;
             }
             if (input.equals(OPTION_THREE)) {
-                //stationView.showStationAllMessage(stationRepository);
+                lineView.showLineAllMessage(lineRepository) ;
                 break;
             }
         }
@@ -66,7 +66,6 @@ public class Controller {
     public boolean lineOptionOne(LineView lineView, Checker checker,User user, Scanner scanner, LineRepository lineRepository, StationRepository stationRepository) {
         //노선 등록옵션
         lineView.showLineInsertNameGuide();
-
         String userLineNameInput = user.userInput(scanner);
 
         if(!checker.isLengthOverTwo(userLineNameInput)){
@@ -82,7 +81,7 @@ public class Controller {
             String endStation = user.userInput(scanner);
 
             lineRepository.getListLines().get(lineRepository.lines().size() - 1).addStationsInLine(startStation, endStation, stationRepository);
-            lineRepository.addLine(new Line(userLineNameInput));
+            //lineRepository.addLine(new Line(userLineNameInput));
 
             lineView.showLineInsertComplete();
             return true;

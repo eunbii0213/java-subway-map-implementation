@@ -1,6 +1,10 @@
 package subway;
 
-public class LineView extends View{
+import org.omg.CORBA.INITIALIZE;
+import subway.domain.Line;
+import subway.domain.LineRepository;
+
+public class LineView extends View {
     private static final String AFTER_SELECT_LINE_MANAGE_MESSAGE = "## 노선 관리 화면 ";
     private static final String ADD_LINE_GUIDE_MESSAGE = "1. 노선 등록";
     private static final String REMOVE_LINE_GUIDE_MESSAGE = "2. 노선 삭제";
@@ -56,7 +60,11 @@ public class LineView extends View{
     }
 
     //2->3 입력. 추가구현 필요
-    public void showLineAllMessage() {
+    public void showLineAllMessage(LineRepository lineRepository) {
         System.out.println(LINE_LIST_MESSAGE);
+        for (Line line : lineRepository.lines()) {
+            System.out.println(INFO_MESSAGE + line.getName());
+        }
+
     }
 }
