@@ -31,6 +31,21 @@ public class Checker {
         return true;
     }
 
+    public boolean isLastStation(Line line,int index){
+        if(line.getSubwayMap().size()-1 == index){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isLineSizeOverTwo(Line line){
+        if(line.getSubwayMap().size()<=MINIMUM_LENGTH){
+            errorView.getErrorView();
+            return false;
+        }
+        return true;
+    }
+
     public boolean isSameName(String userInput, StationRepository stationRepository) {
         for (int index = INITIAL_INDEX; index < stationRepository.stations().size(); index++) {
             if (stationRepository.stations().get(index).getName().equals(userInput)) {

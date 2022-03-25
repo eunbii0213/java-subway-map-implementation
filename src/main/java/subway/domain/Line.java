@@ -22,6 +22,24 @@ public class Line {
         return name;
     }
 
+    public int searchTargetLineIndexInSubwayMap(String target){
+        for (int index = INNITIAL_INDEX; index < subwayMap.size(); index++) {
+            if (subwayMap.get(index).getName().equals(target)) {
+                return index;
+            }
+        }
+        return SEARCH_ERROR;
+    }
+    public void removeStation(int index){
+        subwayMap.remove(index);
+    }
+
+    public void changeEndStationAfterRemoveEndStation(int index, int stationIndex, StationRepository stationRepository){
+        Station station = stationRepository.getStations().get(stationIndex+1);
+        subwayMap.remove(index);
+        subwayMap.add(station);
+    }
+
     public int searchTargetIndexInLine(String target, StationRepository stationRepository) {
         for (int index = INNITIAL_INDEX; index < stationRepository.stations().size(); index++) {
             if (stationRepository.stations().get(index).getName().equals(target)) {

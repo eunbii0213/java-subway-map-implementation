@@ -8,7 +8,8 @@ public class SectionView extends View{
     private static final String SECTOR_INSERT_STATION_NAME_GUIDE_MESSAGE = "## 역이름을 입력하세요.";
     private static final String SECTOR_INSERT_NUMBER_GUIDE_MESSAGE = "## 순서를 입력하세요.";
     private static final String SECTOR_INSERT_COMPLETE_MESSAGE = "구간이 등록되었습니다.";
-    private static final String SECTOR_REMOVE_GUIDE_MESSAGE = "## 삭제할 노선 이름을 입력하세요.";
+    private static final String SECTOR_REMOVE_LINE_GUIDE_MESSAGE = "## 삭제할 노선 이름을 입력하세요.";
+    private static final String SECTOR_REMOVE_STATION_GUIDE_MESSAGE = "## 삭제할 노선 이름을 입력하세요.";
     private static final String SECTOR_REMOVE_COMPLETE_MESSAGE = "구간이 삭제되었습니다.";
 
     //3 입력
@@ -42,8 +43,12 @@ public class SectionView extends View{
     }
 
     //3->2 입력
-    public void showSectorRemoveGuide() {
-        System.out.println(SECTOR_REMOVE_GUIDE_MESSAGE);
+    public void showSectorRemoveLineGuide() {
+        System.out.println(SECTOR_REMOVE_LINE_GUIDE_MESSAGE);
+    }
+
+    public void showSectorRemoveStationGuide() {
+        System.out.println(SECTOR_REMOVE_STATION_GUIDE_MESSAGE);
     }
 
     //3->2 입력

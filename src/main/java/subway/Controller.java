@@ -23,8 +23,8 @@ public class Controller {
         if (input.equals(OPTION_TWO)) {
             lineManage(scanner, user, lineRepository, stationRepository);
         }
-        if(input.equals(OPTION_THREE)){
-            sectionManage(scanner,user,lineRepository,stationRepository);
+        if (input.equals(OPTION_THREE)) {
+            sectionManage(scanner, user, lineRepository, stationRepository);
         }
     }
 
@@ -34,7 +34,7 @@ public class Controller {
         sectionView.showSectorMenuGuide();
         Section section = new Section();
 
-        while(true){
+        while (true) {
             String input = user.userInput(scanner);
 
             if (input.equals(GO_BACK)) {
@@ -45,28 +45,58 @@ public class Controller {
                 sectionView.showSelectGuideMessage();
                 continue;
             }
-            if(input.equals(OPTION_ONE)){
+
+            if (input.equals(OPTION_ONE)) {
                 sectionView.showSectorInsertGuide();
+
                 String userInputLineName = user.userInput(scanner);
-                int lineIndex = section.findLineIndexFromLines(lineRepository,userInputLineName);
+                int lineIndex = section.findLineIndexFromLines(lineRepository, userInputLineName);
                 Line line = lineRepository.getLines(lineIndex);
 
                 sectionView.showSectorInsertStationNameGuide();
                 String userInputStationName = user.userInput(scanner);
-                int stationIndex = section.findStationIndexFromStations(stationRepository,userInputStationName);
+                int stationIndex = section.findStationIndexFromStations(stationRepository, userInputStationName);
                 Station station = stationRepository.getStations().get(stationIndex);
 
                 sectionView.showSectorInsertNumberGuide();
+                //System.out.println("hihihi");
                 String userInputIndex = user.userInput(scanner);
+                //System.out.println("userInputIndex 받음");
 
-                int index = Integer.parseInt(userInputIndex)-1;
+                int index = Integer.parseInt(userInputIndex) - 1;
                 section.addStationInLines(index, line, station);
+                //System.out.println("add end");
 
                 sectionView.showSectorInsertComplete();
                 break;
             }
-            if(input.equals(OPTION_TWO)){
+            if (input.equals(OPTION_TWO)) {
+                sectionView.showSectorRemoveLineGuide();
 
+                String userInputLineName = user.userInput(scanner);
+                int lineIndex = section.findLineIndexFromLines(lineRepository, userInputLineName);
+                Line line = lineRepository.getLines(lineIndex);
+
+                sectionView.showSectorRemoveStationGuide();
+                String userInputStationName = user.userInput(scanner);
+                int stationIndex = section.findStationIndexFromStations(stationRepository, userInputStationName);
+                Station station = stationRepository.getStations().get(stationIndex);
+
+
+                int index = line.searchTargetLineIndexInSubwayMap(station.getName()) - 1;
+
+                if (!checker.isLineSizeOverTwo(line)) {
+                    sectionView.showSelectGuideMessage();
+                    continue;
+                }
+
+                if (checker.isLastStation(line, index)) {
+                    line.changeEndStationAfterRemoveEndStation(index, stationIndex, stationRepository);
+                }
+
+                line.removeStation(index);
+
+                sectionView.showSectorRemoveComplete();
                 break;
             }
 
@@ -93,7 +123,7 @@ public class Controller {
 
             if (input.equals(OPTION_ONE)) {
 
-                if(lineOptionOne(lineView, checker, user, scanner, lineRepository, stationRepository)){
+                if (lineOptionOne(lineView, checker, user, scanner, lineRepository, stationRepository)) {
                     break;
                 }
                 lineView.showLineMenuGuide();
@@ -101,25 +131,26 @@ public class Controller {
             }
             if (input.equals(OPTION_TWO)) {
                 //노선 삭제 옵션
-                if(lineOptionTwo(lineView, checker, user, scanner, stationRepository, lineRepository)){
+                if (lineOptionTwo(lineView, checker, user, scanner, stationRepository, lineRepository)) {
                     break;
                 }
                 lineView.showLineMenuGuide();
                 continue;
             }
             if (input.equals(OPTION_THREE)) {
-                lineView.showLineAllMessage(lineRepository) ;
+                lineView.showLineAllMessage(lineRepository);
                 break;
             }
         }
     }
+
     //error 발생시 false return
-    public boolean lineOptionOne(LineView lineView, Checker checker,User user, Scanner scanner, LineRepository lineRepository, StationRepository stationRepository) {
+    public boolean lineOptionOne(LineView lineView, Checker checker, User user, Scanner scanner, LineRepository lineRepository, StationRepository stationRepository) {
         //노선 등록옵션
         lineView.showLineInsertNameGuide();
         String userLineNameInput = user.userInput(scanner);
 
-        if(!checker.isLengthOverTwo(userLineNameInput)){
+        if (!checker.isLengthOverTwo(userLineNameInput)) {
             return false;
         }
 
