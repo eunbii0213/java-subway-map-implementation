@@ -75,15 +75,15 @@ public class Controller {
 
         if (!checker.isSameLine(userLineNameInput, lineRepository)) {
             lineRepository.addLine(new Line(userLineNameInput));
+
             lineView.showInsertStartStationInLineGuide();
             String startStation = user.userInput(scanner);
-
             lineView.showInsertEndStationInLineGuide();
             String endStation = user.userInput(scanner);
 
             lineRepository.getListLines().get(lineRepository.lines().size() - 1).addStationsInLine(startStation, endStation, stationRepository);
-
             lineRepository.addLine(new Line(userLineNameInput));
+
             lineView.showLineInsertComplete();
             return true;
         }
