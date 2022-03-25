@@ -41,21 +41,21 @@ public class Controller {
             }
 
             if (input.equals(OPTION_ONE)) {
-                lineOptionOne(lineView, checker, user, scanner, lineRepository,stationRepository);
-                continue;
+                lineOptionOne(lineView, user, scanner, lineRepository,stationRepository);
+                break;
             }
             if (input.equals(OPTION_TWO)) {
-                //stationOptionTwo(stationView, checker, user, scanner, stationRepository, lineRepository);
-                continue;
+                lineOptionTwo(lineView, checker, user, scanner, stationRepository, lineRepository);
+                break;
             }
             if (input.equals(OPTION_THREE)) {
                 //stationView.showStationAllMessage(stationRepository);
-                continue;
+                break;
             }
         }
     }
 
-    public void lineOptionOne(LineView lineView, Checker checker, User user, Scanner scanner, LineRepository lineRepository, StationRepository stationRepository) {
+    public void lineOptionOne(LineView lineView, User user, Scanner scanner, LineRepository lineRepository, StationRepository stationRepository) {
         //노선 등록옵션
         lineView.showLineInsertNameGuide();
 
@@ -68,24 +68,20 @@ public class Controller {
         lineView.showInsertEndStationInLineGuide();
         String endStation = user.userInput(scanner);
 
-        //강남역, 잠실역 입력받고 멈춤 ****개선필요
-        int index = lineRepository.lines().size()-1;
-        lineRepository.getListLines().get(index).addStationsInLine(startStation, endStation, stationRepository);
+        lineRepository.getListLines().get(lineRepository.lines().size()-1).addStationsInLine(startStation, endStation, stationRepository);
 
         lineRepository.addLine(new Line(userLineNameInput));
         lineView.showLineInsertComplete();
-
     }
 
-//    public void lineOptionTwo(LineView lineView, Checker checker, User user, Scanner scanner, StationRepository stationRepository, LineRepository lineRepository) {
-//        //노선 삭제옵션
-//        lineView.showStationRemoveGuide();
-//        String userStationInput = user.userInput(scanner);
-//        if (!checker.isContainStationInLine(lineRepository, userStationInput)) {
-//            stationRepository.deleteStation(userStationInput);
-//            lineView.showStationRemoveComplete();
-//        }
-//    }
+    public void lineOptionTwo(LineView lineView, Checker checker, User user, Scanner scanner, StationRepository stationRepository, LineRepository lineRepository) {
+        //노선 삭제옵션
+        lineView.showLineRemoveGuide();
+        String userRemoveLineInput = user.userInput(scanner);
+        lineRepository.deleteLineByName(userRemoveLineInput);
+        lineView.showLineRemoveComplete();
+
+    }
 
 
     public void stationManage(Scanner scanner, User user, LineRepository lineRepository, StationRepository stationRepository) {
