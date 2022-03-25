@@ -45,6 +45,7 @@ public class Controller {
                 break;
             }
             if (input.equals(OPTION_TWO)) {
+                //노선 삭제 옵션
                 lineOptionTwo(lineView, checker, user, scanner, stationRepository, lineRepository);
                 break;
             }
@@ -75,7 +76,7 @@ public class Controller {
     }
 
     public void lineOptionTwo(LineView lineView, Checker checker, User user, Scanner scanner, StationRepository stationRepository, LineRepository lineRepository) {
-        //노선 삭제옵션
+        //노선 삭제옵션 ++ 체크 후 삭제 필요 (
         lineView.showLineRemoveGuide();
         String userRemoveLineInput = user.userInput(scanner);
         lineRepository.deleteLineByName(userRemoveLineInput);
