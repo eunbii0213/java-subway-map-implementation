@@ -54,4 +54,14 @@ public class Checker {
         }
         return false;
     }
+
+    public boolean isSameLine(String userInput,LineRepository lineRepository){
+        for(int index = INITIAL_INDEX;index<lineRepository.lines().size();index++) {
+            if (lineRepository.lines().get(index).getName().equals(userInput)){
+                errorView.addSameLineError();
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -18,8 +18,8 @@ public class Controller {
         if (input.equals(OPTION_ONE)) {
             stationManage(scanner, user, lineRepository, stationRepository);
         }
-        if(input.equals(OPTION_TWO)){
-            lineManage(scanner,user,lineRepository,stationRepository);
+        if (input.equals(OPTION_TWO)) {
+            lineManage(scanner, user, lineRepository, stationRepository);
         }
     }
 
@@ -41,13 +41,20 @@ public class Controller {
             }
 
             if (input.equals(OPTION_ONE)) {
-                lineOptionOne(lineView, user, scanner, lineRepository,stationRepository);
-                break;
+
+                if(lineOptionOne(lineView, checker, user, scanner, lineRepository, stationRepository)){
+                    break;
+                }
+                lineView.showLineMenuGuide();
+                continue;
             }
             if (input.equals(OPTION_TWO)) {
                 //노선 삭제 옵션
-                lineOptionTwo(lineView, checker, user, scanner, stationRepository, lineRepository);
-                break;
+                if(lineOptionTwo(lineView, checker, user, scanner, stationRepository, lineRepository)){
+                    break;
+                }
+                lineView.showLineMenuGuide();
+                continue;
             }
             if (input.equals(OPTION_THREE)) {
                 //stationView.showStationAllMessage(stationRepository);
@@ -56,32 +63,39 @@ public class Controller {
         }
     }
 
-    public void lineOptionOne(LineView lineView, User user, Scanner scanner, LineRepository lineRepository, StationRepository stationRepository) {
+    public boolean lineOptionOne(LineView lineView, Checker checker,User user, Scanner scanner, LineRepository lineRepository, StationRepository stationRepository) {
         //노선 등록옵션
         lineView.showLineInsertNameGuide();
 
         String userLineNameInput = user.userInput(scanner);
-        lineRepository.addLine(new Line(userLineNameInput));
 
-        lineView.showInsertStartStationInLineGuide();
-        String startStation = user.userInput(scanner);
+        if (!checker.isSameLine(userLineNameInput, lineRepository)) {
+            lineRepository.addLine(new Line(userLineNameInput));
+            lineView.showInsertStartStationInLineGuide();
+            String startStation = user.userInput(scanner);
 
-        lineView.showInsertEndStationInLineGuide();
-        String endStation = user.userInput(scanner);
+            lineView.showInsertEndStationInLineGuide();
+            String endStation = user.userInput(scanner);
 
-        lineRepository.getListLines().get(lineRepository.lines().size()-1).addStationsInLine(startStation, endStation, stationRepository);
+            lineRepository.getListLines().get(lineRepository.lines().size() - 1).addStationsInLine(startStation, endStation, stationRepository);
 
-        lineRepository.addLine(new Line(userLineNameInput));
-        lineView.showLineInsertComplete();
+            lineRepository.addLine(new Line(userLineNameInput));
+            lineView.showLineInsertComplete();
+            return true;
+        }
+        return false;
     }
 
-    public void lineOptionTwo(LineView lineView, Checker checker, User user, Scanner scanner, StationRepository stationRepository, LineRepository lineRepository) {
+    public boolean lineOptionTwo(LineView lineView, Checker checker, User user, Scanner scanner, StationRepository stationRepository, LineRepository lineRepository) {
         //노선 삭제옵션 ++ 체크 후 삭제 필요 (
         lineView.showLineRemoveGuide();
         String userRemoveLineInput = user.userInput(scanner);
-        lineRepository.deleteLineByName(userRemoveLineInput);
-        lineView.showLineRemoveComplete();
-
+        if (!checker.isSameLine(userRemoveLineInput, lineRepository)) {
+            lineRepository.deleteLineByName(userRemoveLineInput);
+            lineView.showLineRemoveComplete();
+            return true;
+        }
+        return false;
     }
 
 
@@ -120,7 +134,7 @@ public class Controller {
         //역 등록옵션
         stationView.showStationInsertGuide();
         String userStationNameInput = user.userInput(scanner);
-        if(checker.isLengthOverTwo(userStationNameInput)) {
+        if (checker.isLengthOverTwo(userStationNameInput)) {
             if (!checker.isSameName(userStationNameInput, stationRepository)) {
                 stationRepository.addStation(new Station(userStationNameInput));
                 stationView.showStationInsertComplete();
