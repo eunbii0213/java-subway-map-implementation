@@ -7,7 +7,8 @@ import subway.domain.StationRepository;
 public class Checker {
     ErrorView errorView = new ErrorView();
     private static final int INITIAL_INDEX = 0;
-    private static final int MINIMUM_STATION_LENGTH=2;
+    private static final int MINIMUM_LENGTH=2;
+    //private static final int
 
     public boolean isContainStationInLine(LineRepository lineRepository, String userStationInput) {
         for (int index = INITIAL_INDEX; index < lineRepository.lines().size(); index++) {
@@ -23,7 +24,7 @@ public class Checker {
     }
 
     public boolean isLengthOverTwo(String userInput) {
-        if (userInput.length() < MINIMUM_STATION_LENGTH) {
+        if (userInput.length() < MINIMUM_LENGTH) {
             errorView.userInputLengthError();
             return false;
         }

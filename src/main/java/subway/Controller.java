@@ -62,12 +62,16 @@ public class Controller {
             }
         }
     }
-
+    //error 발생시 false return
     public boolean lineOptionOne(LineView lineView, Checker checker,User user, Scanner scanner, LineRepository lineRepository, StationRepository stationRepository) {
         //노선 등록옵션
         lineView.showLineInsertNameGuide();
 
         String userLineNameInput = user.userInput(scanner);
+
+        if(!checker.isLengthOverTwo(userLineNameInput)){
+            return false;
+        }
 
         if (!checker.isSameLine(userLineNameInput, lineRepository)) {
             lineRepository.addLine(new Line(userLineNameInput));
