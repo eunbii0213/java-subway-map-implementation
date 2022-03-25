@@ -13,6 +13,8 @@ public class Controller {
     private static final int STATION_OPTION_END = 3;
     private static final int LINE_OPTION_START = 1;
     private static final int LINE_OPTION_END = 3;
+    private static final int SECTION_OPTION_START = 1;
+    private static final int SECTION_OPTION_END = 2;
 
     public void startSubwayMap(String input, Scanner scanner, User user, LineRepository lineRepository, StationRepository stationRepository) {
         if (input.equals(OPTION_ONE)) {
@@ -21,6 +23,55 @@ public class Controller {
         if (input.equals(OPTION_TWO)) {
             lineManage(scanner, user, lineRepository, stationRepository);
         }
+        if(input.equals(OPTION_THREE)){
+            sectionManage(scanner,user,lineRepository,stationRepository);
+        }
+    }
+
+    private void sectionManage(Scanner scanner, User user, LineRepository lineRepository, StationRepository stationRepository) {
+        Checker checker = new Checker();
+        SectionView sectionView = new SectionView();
+        sectionView.showSectorMenuGuide();
+        Section section = new Section();
+
+        while(true){
+            String input = user.userInput(scanner);
+
+            if (input.equals(GO_BACK)) {
+                break;
+            }
+
+            if (checker.checkUserInputIsNotValid(input, SECTION_OPTION_START, SECTION_OPTION_END)) {
+                sectionView.showSelectGuideMessage();
+                continue;
+            }
+            if(input.equals(OPTION_ONE)){
+                sectionView.showSectorInsertGuide();
+                String userInputLineName = user.userInput(scanner);
+                int lineIndex = section.findLineIndexFromLines(lineRepository,userInputLineName);
+                Line line = lineRepository.getLines(lineIndex);
+
+                sectionView.showSectorInsertStationNameGuide();
+                String userInputStationName = user.userInput(scanner);
+                int stationIndex = section.findStationIndexFromStations(stationRepository,userInputStationName);
+                Station station = stationRepository.getStations().get(stationIndex);
+
+                sectionView.showSectorInsertNumberGuide();
+                String userInputIndex = user.userInput(scanner);
+
+                int index = Integer.parseInt(userInputIndex)-1;
+                section.addStationInLines(index, line, station);
+
+                sectionView.showSectorInsertComplete();
+                break;
+            }
+            if(input.equals(OPTION_TWO)){
+
+                break;
+            }
+
+        }
+
     }
 
     public void lineManage(Scanner scanner, User user, LineRepository lineRepository, StationRepository stationRepository) {
@@ -29,7 +80,7 @@ public class Controller {
         lineView.showLineMenuGuide();
 
         while (true) {
-            String input = scanner.nextLine();
+            String input = user.userInput(scanner);
 
             if (input.equals(GO_BACK)) {
                 break;
@@ -81,7 +132,6 @@ public class Controller {
             String endStation = user.userInput(scanner);
 
             lineRepository.getListLines().get(lineRepository.lines().size() - 1).addStationsInLine(startStation, endStation, stationRepository);
-            //lineRepository.addLine(new Line(userLineNameInput));
 
             lineView.showLineInsertComplete();
             return true;
