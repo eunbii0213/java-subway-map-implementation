@@ -25,19 +25,21 @@ public class Controller {
 
     public void lineManage(Scanner scanner, User user, LineRepository lineRepository, StationRepository stationRepository) {
         Checker checker = new Checker();
+        LineView lineView = new LineView();
+        lineView.showLineMenuGuide();
 
         while (true) {
-            LineView lineView = new LineView();
-            lineView.showLineMenuGuide();
             String input = scanner.nextLine();
-
-            if (checker.checkUserInputIsNotValid(input, LINE_OPTION_START, LINE_OPTION_END)) {
-                continue;
-            }
 
             if (input.equals(GO_BACK)) {
                 break;
             }
+
+            if (checker.checkUserInputIsNotValid(input, LINE_OPTION_START, LINE_OPTION_END)) {
+                lineView.showSelectGuideMessage();
+                continue;
+            }
+
             if (input.equals(OPTION_ONE)) {
                 lineOptionOne(lineView, checker, user, scanner, lineRepository,stationRepository);
                 continue;
@@ -66,11 +68,13 @@ public class Controller {
         lineView.showInsertEndStationInLineGuide();
         String endStation = user.userInput(scanner);
 
-
-        int index = lineRepository.lines().size();
-        lineRepository.lines().get(index).addStationsInLine(startStation, endStation, stationRepository);
+        //강남역, 잠실역 입력받고 멈춤 ****개선필요
+        int index = lineRepository.lines().size()-1;
+        lineRepository.getListLines().get(index).addStationsInLine(startStation, endStation, stationRepository);
 
         lineRepository.addLine(new Line(userLineNameInput));
+        lineView.showLineInsertComplete();
+
     }
 
 //    public void lineOptionTwo(LineView lineView, Checker checker, User user, Scanner scanner, StationRepository stationRepository, LineRepository lineRepository) {
@@ -91,7 +95,6 @@ public class Controller {
 
         while (true) {
             String input = scanner.nextLine();
-
 
             if (input.equals(GO_BACK)) {
                 break;

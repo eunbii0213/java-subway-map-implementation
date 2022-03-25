@@ -48,4 +48,6 @@ public class LineRepository {
     public static Line getLines(int index){
         return lines.get(index);
     }
+
+    public static List<Line> getListLines(){return lines;}
 }
