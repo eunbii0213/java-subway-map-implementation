@@ -3,7 +3,7 @@ package subway;
 import subway.domain.Station;
 import subway.domain.StationRepository;
 
-public class StationView extends View{
+public class StationView extends View {
     private static final String AFTER_SELECT_STATION_MANAGE_MESSAGE = "## 역 관리 화면 ";
     private static final String ADD_STATION_GUIDE_MESSAGE = "1. 역 등록";
     private static final String REMOVE_STATION_GUIDE_MESSAGE = "2. 역 삭제";
@@ -44,10 +44,10 @@ public class StationView extends View{
         System.out.println(INFO_MESSAGE + STATION_REMOVE_COMPLETE_MESSAGE);
     }
 
-    public boolean showStationAllMessage(StationRepository stationRepository) {
+    public boolean showStationAllMessage() {
         System.out.println();
         System.out.println(STATION_LIST_MESSAGE);
-        for(Station station : stationRepository.getStations()) {
+        for (Station station : StationRepository.getStations()) {
             System.out.println(INFO_MESSAGE + station.getName());
         }
         return false;

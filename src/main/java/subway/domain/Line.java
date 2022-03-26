@@ -7,7 +7,7 @@ public class Line {
     private String name;
     private List<Station> subwayMap;
     private static final int SEARCH_ERROR = -1;
-    private static final int INNITIAL_INDEX = 0;
+    private static final int INITIAL_INDEX = 0;
 
     public Line(String name) {
         this.name = name;
@@ -22,41 +22,41 @@ public class Line {
         return name;
     }
 
-    public int searchTargetLineIndexInSubwayMap(String target){
-        for (int index = INNITIAL_INDEX; index < subwayMap.size(); index++) {
+    public int searchTargetStationIndexInSubwayMap(String target) {
+        for (int index = INITIAL_INDEX; index < subwayMap.size(); index++) {
             if (subwayMap.get(index).getName().equals(target)) {
                 return index;
             }
         }
         return SEARCH_ERROR;
     }
-    public void removeStation(int index){
+
+    public void removeStation(int index) {
         subwayMap.remove(index);
     }
 
-    public void changeEndStationAfterRemoveEndStation(int index, int stationIndex, StationRepository stationRepository){
-        if(stationIndex<stationRepository.stations().size()) {
-            Station station = stationRepository.getStations().get(stationIndex + 1);
-            subwayMap.remove(index);
+    public void changeEndStationAfterRemoveEndStation(int stationIndex) {
+        if (stationIndex < StationRepository.stations().size()) {
+            Station station = StationRepository.getStations().get(stationIndex + 1);
             subwayMap.add(station);
         }
     }
 
-    public int searchTargetIndexInLine(String target, StationRepository stationRepository) {
-        for (int index = INNITIAL_INDEX; index < stationRepository.stations().size(); index++) {
-            if (stationRepository.stations().get(index).getName().equals(target)) {
+    public int searchTargetIndexInLine(String target) {
+        for (int index = INITIAL_INDEX; index < StationRepository.stations().size(); index++) {
+            if (StationRepository.stations().get(index).getName().equals(target)) {
                 return index;
             }
         }
         return SEARCH_ERROR;
     }
 
-    public void addStationsInLine(String startTarget, String endTarget, StationRepository stationRepository) {
-        int startTargetIndex = searchTargetIndexInLine(startTarget, stationRepository);
-        int endTargetIndex = searchTargetIndexInLine(endTarget, stationRepository);
+    public void addStationsInLine(String startTarget, String endTarget) {
+        int startTargetIndex = searchTargetIndexInLine(startTarget);
+        int endTargetIndex = searchTargetIndexInLine(endTarget);
 
         for (int index = startTargetIndex; index <= endTargetIndex; index++) {
-            subwayMap.add(stationRepository.stations().get(index));
+            subwayMap.add(StationRepository.stations().get(index));
         }
     }
 }

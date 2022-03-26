@@ -56,10 +56,10 @@ public class LineView extends View {
         System.out.println(INFO_MESSAGE + LINE_REMOVE_COMPLETE_MESSAGE);
     }
 
-    public boolean showLineAllMessage(LineRepository lineRepository) {
+    public boolean showLineAllMessage() {
         System.out.println();
         System.out.println(LINE_LIST_MESSAGE);
-        for (Line line : lineRepository.lines()) {
+        for (Line line : LineRepository.lines()) {
             System.out.println(INFO_MESSAGE + line.getName());
         }
         return false;

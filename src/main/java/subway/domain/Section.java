@@ -4,25 +4,25 @@ public class Section {
     private static final int FIND_ERROR = -1;
     private static final int INITIAL_INDEX = 0;
 
-    public static Line findLineIndexFromLines(LineRepository lineRepository, String userInput) {
-        for (int index = INITIAL_INDEX; index < lineRepository.lines().size(); index++) {
-            if (lineRepository.getLines(index).getName().equals(userInput)) {
-                return lineRepository.getLines(index);
+    public static Line findLineIndexFromLines(String userInput) {
+        for (int index = INITIAL_INDEX; index < LineRepository.lines().size(); index++) {
+            if (LineRepository.getLines(index).getName().equals(userInput)) {
+                return LineRepository.getLines(index);
             }
         }
-        return lineRepository.getLines(FIND_ERROR);
+        return LineRepository.getLines(FIND_ERROR);
     }
 
-    public static int findStationIndexFromStations(StationRepository stationRepository, String userInput) {
-        for (int index = INITIAL_INDEX; index < stationRepository.getStations().size(); index++) {
-            if (stationRepository.getStations().get(index).getName().equals(userInput)) {
+    public static int findStationIndexFromStations(String userInput) {
+        for (int index = INITIAL_INDEX; index < StationRepository.getStations().size(); index++) {
+            if (StationRepository.getStations().get(index).getName().equals(userInput)) {
                 return index;
             }
         }
         return FIND_ERROR;
     }
 
-    public static void addStationInLines(int index, Line line,Station station) {
-        line.getSubwayMap().add(index,station);
+    public static void addStationInLines(int index, Line line, Station station) {
+        line.getSubwayMap().add(index, station);
     }
 }

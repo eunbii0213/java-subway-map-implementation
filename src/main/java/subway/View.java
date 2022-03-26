@@ -1,10 +1,6 @@
 package subway;
 
 import subway.domain.LineRepository;
-import subway.domain.Station;
-import subway.domain.StationRepository;
-
-import java.util.stream.IntStream;
 
 public class View {
     private static final int INITIAL_INDEX = 0;
@@ -36,15 +32,15 @@ public class View {
         System.out.println(SELECT_GUIDE_MESSAGE);
     }
 
-    public void printAllLineAndStationInfo(LineRepository lineRepository) {
+    public void printAllLineAndStationInfo() {
         System.out.println();
         System.out.println(SHOW_ALL_LINES_AND_STATIONS_MESSAGE);
-        for (int index = INITIAL_INDEX; index < lineRepository.lines().size(); index++) {
-            System.out.println(INFO_MESSAGE + lineRepository.lines().get(index).getName());
+        for (int index = INITIAL_INDEX; index < LineRepository.lines().size(); index++) {
+            System.out.println(INFO_MESSAGE + LineRepository.lines().get(index).getName());
             System.out.println(INFO_MESSAGE + PRINT_HYPHEN);
 
-            for (int stationIndex = INITIAL_INDEX; stationIndex < lineRepository.lines().get(index).getSubwayMap().size(); stationIndex++) {
-                System.out.println(INFO_MESSAGE + lineRepository.lines().get(index).getSubwayMap().get(stationIndex).getName());
+            for (int stationIndex = INITIAL_INDEX; stationIndex < LineRepository.lines().get(index).getSubwayMap().size(); stationIndex++) {
+                System.out.println(INFO_MESSAGE + LineRepository.lines().get(index).getSubwayMap().get(stationIndex).getName());
             }
             System.out.println();
         }

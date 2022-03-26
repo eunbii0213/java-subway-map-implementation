@@ -9,7 +9,7 @@ public class LineRepository {
     private static final List<Line> lines = new ArrayList<>();
     private static int initialLinesIndex = 0;
 
-    public LineRepository(){
+    public static void initialLineRepository() {
         lines.add(new Line("2호선"));
         lines.add(new Line("3호선"));
         lines.add(new Line("신분당선"));
@@ -32,6 +32,7 @@ public class LineRepository {
         line.getSubwayMap().add(new Station("강남역"));
         line.getSubwayMap().add(new Station("양재역"));
         line.getSubwayMap().add(new Station("양재시민의숲역"));
+
     }
 
     public static List<Line> lines() {
@@ -46,9 +47,11 @@ public class LineRepository {
         return lines.removeIf(line -> Objects.equals(line.getName(), name));
     }
 
-    public static Line getLines(int index){
+    public static Line getLines(int index) {
         return lines.get(index);
     }
 
-    public static List<Line> getListLines(){return lines;}
+    public static List<Line> getListLines() {
+        return lines;
+    }
 }
