@@ -16,7 +16,7 @@ public class View {
     protected static final String PRINT_HYPHEN = "---";
     private static final String SHOW_ALL_LINES_AND_STATIONS_MESSAGE = "## 지하철 노선도";
 
-    public void showMainGuide() {
+    public static void showMainGuide() {
         System.out.println();
         System.out.println(MAIN_MESSAGE);
         System.out.println(STATION_MANAGE_GUIDE_MESSAGE);
@@ -28,11 +28,11 @@ public class View {
         showSelectGuideMessage();
     }
 
-    public void showSelectGuideMessage() {
+    public static void showSelectGuideMessage() {
         System.out.println(SELECT_GUIDE_MESSAGE);
     }
 
-    public void printAllLineAndStationInfo() {
+    public static void printAllLineAndStationInfo() {
         System.out.println();
         System.out.println(SHOW_ALL_LINES_AND_STATIONS_MESSAGE);
         for (int index = INITIAL_INDEX; index < LineRepository.lines().size(); index++) {

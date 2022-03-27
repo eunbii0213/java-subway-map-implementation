@@ -7,6 +7,8 @@ import java.util.Objects;
 
 public class StationRepository {
     private static final List<Station> stations = new ArrayList<>();
+    private static final int INITIAL_INDEX = 0;
+    private static final int SEARCH_ERROR = -1;
 
     public static void initialStationRepository() {
         stations.add(new Station("교대역"));
@@ -32,5 +34,14 @@ public class StationRepository {
 
     public static List<Station> getStations() {
         return stations;
+    }
+
+    public static int searchTargetIndex(String target) {
+        for (int index = INITIAL_INDEX; index < stations.size(); index++) {
+            if (stations.get(index).getName().equals(target)) {
+                return index;
+            }
+        }
+        return SEARCH_ERROR;
     }
 }

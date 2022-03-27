@@ -14,27 +14,22 @@ public class Application {
 
     public static void main(String[] args) {
         final Scanner scanner = new Scanner(System.in);
-        View view = new View();
         User user = new User();
-        Checker checker = new Checker();
 
-        subwayMap(scanner, checker, view, user);
+        subwayMap(scanner, user);
     }
 
-    private static void subwayMap(Scanner scanner, Checker checker, View view, User user) {
+    private static void subwayMap(Scanner scanner, User user) {
         LineRepository.initialLineRepository();
         StationRepository.initialStationRepository();
         Controller controller = new Controller();
-        LineView lineView = new LineView();
-        SectionView sectionView = new SectionView();
-        StationView stationView = new StationView();
 
         String input = INITIAL_STRING_VARIABLE;
         while (!input.equals(QUIT)) {
-            view.showMainGuide();
+            View.showMainGuide();
             input = user.userInput(scanner);
-            if (!checker.checkUserInputIsNotValid(input, MAIN_MENU_OPTION_START, MAIN_MENU_OPTION_END, true)) {
-                controller.startSubwayMap(stationView, lineView, view, sectionView, input, checker, scanner, user);
+            if (!Checker.checkUserInputIsNotValid(input, MAIN_MENU_OPTION_START, MAIN_MENU_OPTION_END, true)) {
+                controller.startSubwayMap(input, scanner, user);
             }
         }
     }

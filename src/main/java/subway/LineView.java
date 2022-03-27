@@ -16,7 +16,7 @@ public class LineView extends View {
     private static final String LINE_REMOVE_GUIDE_MESSAGE = "## 삭제할 노선 이름을 입력하세요.";
     private static final String LINE_REMOVE_COMPLETE_MESSAGE = "지하철 노선이 삭제되었습니다.";
 
-    public void showLineMenuGuide() {
+    public static void showLineMenuGuide() {
         System.out.println();
         System.out.println(AFTER_SELECT_LINE_MANAGE_MESSAGE);
         System.out.println(ADD_LINE_GUIDE_MESSAGE);
@@ -26,37 +26,37 @@ public class LineView extends View {
         System.out.println();
     }
 
-    public void showLineInsertNameGuide() {
+    public static void showLineInsertNameGuide() {
         System.out.println();
         System.out.println(LINE_INSERT_NAME_GUIDE_MESSAGE);
     }
 
-    public void showInsertStartStationInLineGuide() {
+    public static void showInsertStartStationInLineGuide() {
         System.out.println();
         System.out.println(LINE_INSERT_START_STATION_GUIDE_MESSAGE);
     }
 
-    public void showInsertEndStationInLineGuide() {
+    public static void showInsertEndStationInLineGuide() {
         System.out.println();
         System.out.println(LINE_INSERT_END_STATION_GUIDE_MESSAGE);
     }
 
-    public void showLineInsertComplete() {
+    public static void showLineInsertComplete() {
         System.out.println();
         System.out.println(INFO_MESSAGE + LINE_INSERT_COMPLETE_MESSAGE);
     }
 
-    public void showLineRemoveGuide() {
+    public static void showLineRemoveGuide() {
         System.out.println();
         System.out.println(LINE_REMOVE_GUIDE_MESSAGE);
     }
 
-    public void showLineRemoveComplete() {
+    public static void showLineRemoveComplete() {
         System.out.println();
         System.out.println(INFO_MESSAGE + LINE_REMOVE_COMPLETE_MESSAGE);
     }
 
-    public boolean showLineAllMessage() {
+    public static boolean showLineAllMessage() {
         System.out.println();
         System.out.println(LINE_LIST_MESSAGE);
         for (Line line : LineRepository.lines()) {

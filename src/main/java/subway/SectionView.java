@@ -12,7 +12,7 @@ public class SectionView extends View {
     private static final String SECTION_REMOVE_STATION_GUIDE_MESSAGE = "## 삭제할 구간의 역을 입력하세요.";
     private static final String SECTION_REMOVE_COMPLETE_MESSAGE = "구간이 삭제되었습니다.";
 
-    public void showSectorMenuGuide() {
+    public static void showSectorMenuGuide() {
         System.out.println();
         System.out.println(AFTER_SELECT_SECTOR_MANAGE_MESSAGE);
         System.out.println(ADD_SECTOR_GUIDE_MESSAGE);
@@ -21,37 +21,37 @@ public class SectionView extends View {
         System.out.println();
     }
 
-    public void showSectorInsertGuide() {
+    public static void showSectorInsertGuide() {
         System.out.println();
         System.out.println(SECTION_INSERT_NAME_GUIDE_MESSAGE);
     }
 
-    public void showSectorInsertStationNameGuide() {
+    public static void showSectorInsertStationNameGuide() {
         System.out.println();
         System.out.println(SECTION_INSERT_STATION_NAME_GUIDE_MESSAGE);
     }
 
-    public void showSectorInsertNumberGuide() {
+    public static void showSectorInsertNumberGuide() {
         System.out.println();
         System.out.println(SECTION_INSERT_NUMBER_GUIDE_MESSAGE);
     }
 
-    public void showSectorInsertComplete() {
+    public static void showSectorInsertComplete() {
         System.out.println();
         System.out.println(INFO_MESSAGE + SECTION_INSERT_COMPLETE_MESSAGE);
     }
 
-    public void showSectorRemoveLineGuide() {
+    public static void showSectorRemoveLineGuide() {
         System.out.println();
         System.out.println(SECTION_REMOVE_LINE_GUIDE_MESSAGE);
     }
 
-    public void showSectorRemoveStationGuide() {
+    public static void showSectorRemoveStationGuide() {
         System.out.println();
         System.out.println(SECTION_REMOVE_STATION_GUIDE_MESSAGE);
     }
 
-    public void showSectorRemoveComplete() {
+    public static void showSectorRemoveComplete() {
         System.out.println();
         System.out.println(INFO_MESSAGE + SECTION_REMOVE_COMPLETE_MESSAGE);
     }

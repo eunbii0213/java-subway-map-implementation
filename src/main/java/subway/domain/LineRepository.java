@@ -32,7 +32,6 @@ public class LineRepository {
         line.getSubwayMap().add(new Station("강남역"));
         line.getSubwayMap().add(new Station("양재역"));
         line.getSubwayMap().add(new Station("양재시민의숲역"));
-
     }
 
     public static List<Line> lines() {
@@ -53,5 +52,16 @@ public class LineRepository {
 
     public static List<Line> getListLines() {
         return lines;
+    }
+
+    public static void addStationsInLine(int lineIndex , String startTarget, String endTarget) {
+        int startTargetIndex = StationRepository.searchTargetIndex(startTarget);
+        int endTargetIndex = StationRepository.searchTargetIndex(endTarget);
+
+        //System.out.println(startTargetIndex+","+endTargetIndex+","+lineIndex);
+        Line line = lines.get(lineIndex);
+        for (int index = startTargetIndex; index <= endTargetIndex; index++) {
+            line.addStationInLine(index,StationRepository.stations().get(index));
+        }
     }
 }

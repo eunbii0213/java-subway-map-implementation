@@ -14,7 +14,7 @@ public class StationView extends View {
     private static final String STATION_REMOVE_GUIDE_MESSAGE = "## 삭제할 역 이름을 입력하세요.";
     private static final String STATION_REMOVE_COMPLETE_MESSAGE = "지하철 역이 삭제되었습니다.";
 
-    public void showStationMenuGuide() {
+    public static void showStationMenuGuide() {
         System.out.println();
         System.out.println(AFTER_SELECT_STATION_MANAGE_MESSAGE);
         System.out.println(ADD_STATION_GUIDE_MESSAGE);
@@ -24,27 +24,27 @@ public class StationView extends View {
         System.out.println();
     }
 
-    public void showStationInsertGuide() {
+    public static void showStationInsertGuide() {
         System.out.println();
         System.out.println(STATION_INSERT_GUIDE_MESSAGE);
     }
 
-    public void showStationInsertComplete() {
+    public static void showStationInsertComplete() {
         System.out.println();
         System.out.println(INFO_MESSAGE + STATION_INSERT_COMPLETE_MESSAGE);
     }
 
-    public void showStationRemoveGuide() {
+    public static void showStationRemoveGuide() {
         System.out.println();
         System.out.println(STATION_REMOVE_GUIDE_MESSAGE);
     }
 
-    public void showStationRemoveComplete() {
+    public static void showStationRemoveComplete() {
         System.out.println();
         System.out.println(INFO_MESSAGE + STATION_REMOVE_COMPLETE_MESSAGE);
     }
 
-    public boolean showStationAllMessage() {
+    public static boolean showStationAllMessage() {
         System.out.println();
         System.out.println(STATION_LIST_MESSAGE);
         for (Station station : StationRepository.getStations()) {

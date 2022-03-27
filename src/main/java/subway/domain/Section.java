@@ -22,7 +22,4 @@ public class Section {
         return FIND_ERROR;
     }
 
-    public static void addStationInLines(int index, Line line, Station station) {
-        line.getSubwayMap().add(index, station);
-    }
 }

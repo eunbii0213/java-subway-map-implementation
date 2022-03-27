@@ -8,6 +8,7 @@ public class Line {
     private List<Station> subwayMap;
     private static final int SEARCH_ERROR = -1;
     private static final int INITIAL_INDEX = 0;
+    private static final int LAST_INDEX_CONSTANT = 1;
 
     public Line(String name) {
         this.name = name;
@@ -37,26 +38,13 @@ public class Line {
 
     public void changeEndStationAfterRemoveEndStation(int stationIndex) {
         if (stationIndex < StationRepository.stations().size()) {
-            Station station = StationRepository.getStations().get(stationIndex + 1);
+            Station station = StationRepository.getStations().get(stationIndex + LAST_INDEX_CONSTANT);
             subwayMap.add(station);
         }
     }
 
-    public int searchTargetIndexInLine(String target) {
-        for (int index = INITIAL_INDEX; index < StationRepository.stations().size(); index++) {
-            if (StationRepository.stations().get(index).getName().equals(target)) {
-                return index;
-            }
-        }
-        return SEARCH_ERROR;
+    public void addStationInLine(int index,Station station) {
+        subwayMap.add(index, station);
     }
 
-    public void addStationsInLine(String startTarget, String endTarget) {
-        int startTargetIndex = searchTargetIndexInLine(startTarget);
-        int endTargetIndex = searchTargetIndexInLine(endTarget);
-
-        for (int index = startTargetIndex; index <= endTargetIndex; index++) {
-            subwayMap.add(StationRepository.stations().get(index));
-        }
-    }
 }
