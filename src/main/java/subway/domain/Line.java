@@ -43,7 +43,7 @@ public class Line {
         }
     }
 
-    public void addStationInLine(int index,Station station) {
+    public void addStationInLine(int index, Station station) {
         subwayMap.add(index, station);
     }
 

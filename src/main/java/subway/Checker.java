@@ -69,7 +69,7 @@ public class Checker {
             if (isMainMenu && userInput.equals(QUIT)) {
                 return false;
             }
-            if(isMainMenu && userInput.equals(GO_BACK)){
+            if (isMainMenu && userInput.equals(GO_BACK)) {
                 ErrorView.userInputError();
                 return true;
             }

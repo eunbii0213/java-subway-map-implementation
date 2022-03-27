@@ -50,18 +50,13 @@ public class LineRepository {
         return lines.get(index);
     }
 
-    public static List<Line> getListLines() {
-        return lines;
-    }
-
-    public static void addStationsInLine(int lineIndex , String startTarget, String endTarget) {
+    public static void addStationsInLine(int lineIndex, String startTarget, String endTarget) {
         int startTargetIndex = StationRepository.searchTargetIndex(startTarget);
         int endTargetIndex = StationRepository.searchTargetIndex(endTarget);
 
-        //System.out.println(startTargetIndex+","+endTargetIndex+","+lineIndex);
         Line line = lines.get(lineIndex);
         for (int index = startTargetIndex; index <= endTargetIndex; index++) {
-            line.addStationInLine(index,StationRepository.stations().get(index));
+            line.addStationInLine(index, StationRepository.stations().get(index));
         }
     }
 }
