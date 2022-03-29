@@ -1,6 +1,7 @@
 package subway.domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Line {
@@ -8,15 +9,14 @@ public class Line {
     private List<Station> subwayMap;
     private static final int SEARCH_ERROR = -1;
     private static final int INITIAL_INDEX = 0;
-    private static final int LAST_INDEX_CONSTANT = 1;
 
     public Line(String name) {
         this.name = name;
         subwayMap = new ArrayList<>();
     }
 
-    public List<Station> getSubwayMap() {
-        return subwayMap;
+    public List<Station> subwayMapList() {
+        return Collections.unmodifiableList(subwayMap);
     }
 
     public String getName() {
@@ -36,15 +36,7 @@ public class Line {
         subwayMap.remove(index);
     }
 
-    public void changeEndStationAfterRemoveEndStation(int stationIndex) {
-        if (stationIndex < StationRepository.stations().size()) {
-            Station station = StationRepository.getStations().get(stationIndex + LAST_INDEX_CONSTANT);
-            subwayMap.add(station);
-        }
-    }
-
     public void addStationInLine(int index, Station station) {
         subwayMap.add(index, station);
     }
-
 }

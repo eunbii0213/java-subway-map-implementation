@@ -10,14 +10,8 @@ public class StationRepository {
     private static final int INITIAL_INDEX = 0;
     private static final int SEARCH_ERROR = -1;
 
-    public static void initialStationRepository() {
-        stations.add(new Station("교대역"));
-        stations.add(new Station("강남역"));
-        stations.add(new Station("역삼역"));
-        stations.add(new Station("남부터미널역"));
-        stations.add(new Station("양재역"));
-        stations.add(new Station("양재시민의숲역"));
-        stations.add(new Station("매봉역"));
+    public static void initialStationRepository(String stationName) {
+        stations.add(new Station(stationName));
     }
 
     public static List<Station> stations() {
@@ -30,10 +24,6 @@ public class StationRepository {
 
     public static boolean deleteStation(String name) {
         return stations.removeIf(station -> Objects.equals(station.getName(), name));
-    }
-
-    public static List<Station> getStations() {
-        return stations;
     }
 
     public static int searchTargetIndex(String target) {

@@ -39,8 +39,8 @@ public class View {
             System.out.println(INFO_MESSAGE + LineRepository.lines().get(index).getName());
             System.out.println(INFO_MESSAGE + PRINT_HYPHEN);
 
-            for (int stationIndex = INITIAL_INDEX; stationIndex < LineRepository.lines().get(index).getSubwayMap().size(); stationIndex++) {
-                System.out.println(INFO_MESSAGE + LineRepository.lines().get(index).getSubwayMap().get(stationIndex).getName());
+            for (int stationIndex = INITIAL_INDEX; stationIndex < LineRepository.lines().get(index).subwayMapList().size(); stationIndex++) {
+                System.out.println(INFO_MESSAGE + LineRepository.lines().get(index).subwayMapList().get(stationIndex).getName());
             }
             System.out.println();
         }

@@ -9,13 +9,12 @@ public class Checker {
     private static final String GO_BACK = "B";
     private static final int INITIAL_INDEX = 0;
     private static final int MINIMUM_LENGTH = 2;
-    private static final int LAST_INDEX_CONSTANT = 1;
 
     public static boolean isContainStationInLine(String userStationInput) {
         for (int index = INITIAL_INDEX; index < LineRepository.lines().size(); index++) {
             Line nowLine = LineRepository.getLines(index);
-            for (int searchIndex = INITIAL_INDEX; searchIndex < nowLine.getSubwayMap().size(); searchIndex++) {
-                if (nowLine.getSubwayMap().get(searchIndex).getName().equals(userStationInput)) {
+            for (int searchIndex = INITIAL_INDEX; searchIndex < nowLine.subwayMapList().size(); searchIndex++) {
+                if (nowLine.subwayMapList().get(searchIndex).getName().equals(userStationInput)) {
                     ErrorView.removeErrorStationInLine();
                     return true;
                 }
@@ -32,15 +31,8 @@ public class Checker {
         return true;
     }
 
-    public static boolean isLastStation(Line line, int index, int stationIndex) {
-        if (line.getSubwayMap().size() - LAST_INDEX_CONSTANT == index && stationIndex < StationRepository.getStations().size() - LAST_INDEX_CONSTANT) {
-            return true;
-        }
-        return false;
-    }
-
     public static boolean isLineSizeOverTwo(Line line) {
-        if (line.getSubwayMap().size() <= MINIMUM_LENGTH) {
+        if (line.subwayMapList().size() <= MINIMUM_LENGTH) {
             ErrorView.getErrorView();
             return false;
         }

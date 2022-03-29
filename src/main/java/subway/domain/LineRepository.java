@@ -1,37 +1,19 @@
 package subway.domain;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class LineRepository {
     private static final List<Line> lines = new ArrayList<>();
-    private static int initialLinesIndex = 0;
+    private static final int INITIAL_INDEX = 0;
 
-    public static void initialLineRepository() {
-        lines.add(new Line("2호선"));
-        lines.add(new Line("3호선"));
-        lines.add(new Line("신분당선"));
-
-        Line line = lines.get(initialLinesIndex++);
-
-        line.getSubwayMap().add(new Station("교대역"));
-        line.getSubwayMap().add(new Station("강남역"));
-        line.getSubwayMap().add(new Station("역삼역"));
-
-        line = lines.get(initialLinesIndex++);
-
-        line.getSubwayMap().add(new Station("교대역"));
-        line.getSubwayMap().add(new Station("남부터미널역"));
-        line.getSubwayMap().add(new Station("양재역"));
-        line.getSubwayMap().add(new Station("매봉역"));
-
-        line = lines.get(initialLinesIndex);
-
-        line.getSubwayMap().add(new Station("강남역"));
-        line.getSubwayMap().add(new Station("양재역"));
-        line.getSubwayMap().add(new Station("양재시민의숲역"));
+    public static void initialLineRepository(String lineName, int index) {
+        lines.add(new Line(lineName));
+        StringTokenizer st = new StringTokenizer(InitialBeforeStart.initialStationNamesList().get(index));
+        int stationIndex = INITIAL_INDEX;
+        while (st.hasMoreTokens()) {
+            lines.get(index).addStationInLine(stationIndex, new Station(st.nextToken()));
+            stationIndex++;
+        }
     }
 
     public static List<Line> lines() {

@@ -14,12 +14,11 @@ public class Section {
     }
 
     public static int findStationIndexFromStations(String userInput) {
-        for (int index = INITIAL_INDEX; index < StationRepository.getStations().size(); index++) {
-            if (StationRepository.getStations().get(index).getName().equals(userInput)) {
+        for (int index = INITIAL_INDEX; index < StationRepository.stations().size(); index++) {
+            if (StationRepository.stations().get(index).getName().equals(userInput)) {
                 return index;
             }
         }
         return FIND_ERROR;
     }
-
 }

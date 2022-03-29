@@ -47,7 +47,7 @@ public class StationView extends View {
     public static boolean showStationAllMessage() {
         System.out.println();
         System.out.println(STATION_LIST_MESSAGE);
-        for (Station station : StationRepository.getStations()) {
+        for (Station station : StationRepository.stations()) {
             System.out.println(INFO_MESSAGE + station.getName());
         }
         return false;

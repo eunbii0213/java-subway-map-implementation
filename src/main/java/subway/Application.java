@@ -1,7 +1,6 @@
 package subway;
 
-import subway.domain.LineRepository;
-import subway.domain.StationRepository;
+import subway.domain.InitialBeforeStart;
 import subway.domain.User;
 
 import java.util.Scanner;
@@ -20,8 +19,9 @@ public class Application {
     }
 
     private static void subwayMap(Scanner scanner, User user) {
-        LineRepository.initialLineRepository();
-        StationRepository.initialStationRepository();
+        InitialBeforeStart.initialLineRepository();
+        InitialBeforeStart.initialStationRepository();
+
         Controller controller = new Controller();
 
         String input = INITIAL_STRING_VARIABLE;

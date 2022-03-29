@@ -50,7 +50,7 @@ public class Controller {
         SectionView.showSectorInsertStationNameGuide();
         String userInputStationName = user.userInput(scanner);
         int stationIndex = Section.findStationIndexFromStations(userInputStationName);
-        Station station = StationRepository.getStations().get(stationIndex);
+        Station station = StationRepository.stations().get(stationIndex);
 
         SectionView.showSectorInsertNumberGuide();
         String userInputIndex = user.userInput(scanner);
@@ -75,14 +75,10 @@ public class Controller {
     public void removeStationInLine(Line line, User user, Scanner scanner) {
         SectionView.showSectorRemoveStationGuide();
         int stationIndex = Section.findStationIndexFromStations(user.userInput(scanner));
-        Station station = StationRepository.getStations().get(stationIndex);
+        Station station = StationRepository.stations().get(stationIndex);
         int index = line.searchTargetStationIndexInSubwayMap(station.getName());
 
-        line.removeStation(index--);
-
-        if (Checker.isLastStation(line, index, stationIndex)) {
-            line.changeEndStationAfterRemoveEndStation(stationIndex);
-        }
+        line.removeStation(index);
         SectionView.showSectorRemoveComplete();
     }
 
