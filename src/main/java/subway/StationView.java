@@ -1,6 +1,5 @@
 package subway;
 
-import subway.domain.Station;
 import subway.domain.StationRepository;
 
 public class StationView extends View {
@@ -47,8 +46,8 @@ public class StationView extends View {
     public static boolean showStationAllMessage() {
         System.out.println();
         System.out.println(STATION_LIST_MESSAGE);
-        for (Station station : StationRepository.stations()) {
-            System.out.println(INFO_MESSAGE + station.getName());
+        for (int index = INITIAL_INDEX; index < StationRepository.getStationSize(); index++) {
+            System.out.println(INFO_MESSAGE + StationRepository.getStationFromStations(index).getName());
         }
         return false;
     }

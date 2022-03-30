@@ -5,7 +5,7 @@ public class Section {
     private static final int INITIAL_INDEX = 0;
 
     public static Line findLineIndexFromLines(String userInput) {
-        for (int index = INITIAL_INDEX; index < LineRepository.lines().size(); index++) {
+        for (int index = INITIAL_INDEX; index < LineRepository.getLinesSize(); index++) {
             if (LineRepository.getLines(index).getName().equals(userInput)) {
                 return LineRepository.getLines(index);
             }
@@ -14,8 +14,8 @@ public class Section {
     }
 
     public static int findStationIndexFromStations(String userInput) {
-        for (int index = INITIAL_INDEX; index < StationRepository.stations().size(); index++) {
-            if (StationRepository.stations().get(index).getName().equals(userInput)) {
+        for (int index = INITIAL_INDEX; index < StationRepository.getStationSize(); index++) {
+            if (StationRepository.getStationFromStations(index).getName().equals(userInput)) {
                 return index;
             }
         }

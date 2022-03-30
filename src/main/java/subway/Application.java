@@ -12,19 +12,26 @@ public class Application {
     private static final String QUIT = "Q";
 
     public static void main(String[] args) {
-        final Scanner scanner = new Scanner(System.in);
-        User user = new User();
-
-        subwayMap(scanner, user);
+        startSubwayProgram();
     }
 
-    private static void subwayMap(Scanner scanner, User user) {
-        InitialBeforeStart.initialLineRepository();
-        InitialBeforeStart.initialStationRepository();
+    public static void startSubwayProgram() {
+        subwayMap(new InitialBeforeStart());
+    }
 
+    private static void subwayMap(InitialBeforeStart initialBeforeStart) {
+        initialBeforeStart.initialLineRepository();
+        initialBeforeStart.initialStationRepository();
+
+        subwayProgramStart();
+    }
+
+    public static void subwayProgramStart() {
+        final Scanner scanner = new Scanner(System.in);
+        User user = new User();
         Controller controller = new Controller();
-
         String input = INITIAL_STRING_VARIABLE;
+
         while (!input.equals(QUIT)) {
             View.showMainGuide();
             input = user.userInput(scanner);

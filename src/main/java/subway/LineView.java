@@ -1,6 +1,5 @@
 package subway;
 
-import subway.domain.Line;
 import subway.domain.LineRepository;
 
 public class LineView extends View {
@@ -59,8 +58,8 @@ public class LineView extends View {
     public static boolean showLineAllMessage() {
         System.out.println();
         System.out.println(LINE_LIST_MESSAGE);
-        for (Line line : LineRepository.lines()) {
-            System.out.println(INFO_MESSAGE + line.getName());
+        for (int index = INITIAL_INDEX; index < LineRepository.getLinesSize(); index++) {
+            System.out.println(INFO_MESSAGE + LineRepository.getLines(index).getName());
         }
         return false;
     }

@@ -1,27 +1,23 @@
 package subway.domain;
 
-import java.util.*;
+import subway.Checker;
+
+import java.util.LinkedList;
+import java.util.Objects;
 
 public class LineRepository {
-    private static final List<Line> lines = new ArrayList<>();
-    private static final int INITIAL_INDEX = 0;
+    private static LinkedList<Line> lines = new LinkedList<>();
 
-    public static void initialLineRepository(String lineName, int index) {
-        lines.add(new Line(lineName));
-        StringTokenizer st = new StringTokenizer(InitialBeforeStart.initialStationNamesList().get(index));
-        int stationIndex = INITIAL_INDEX;
-        while (st.hasMoreTokens()) {
-            lines.get(index).addStationInLine(stationIndex, new Station(st.nextToken()));
-            stationIndex++;
+    public static int getLinesSize() {
+        return lines.size();
+    }
+
+    public static boolean addLine(Line line, String userLineNameInput) {
+        if (!Checker.isLengthOverTwo(userLineNameInput) || Checker.isSameLine(userLineNameInput)) {
+            return true;
         }
-    }
-
-    public static List<Line> lines() {
-        return Collections.unmodifiableList(lines);
-    }
-
-    public static void addLine(Line line) {
         lines.add(line);
+        return false;
     }
 
     public static boolean deleteLineByName(String name) {
@@ -32,13 +28,15 @@ public class LineRepository {
         return lines.get(index);
     }
 
-    public static void addStationsInLine(int lineIndex, String startTarget, String endTarget) {
+    public static void addStationsInLine(String startTarget, String endTarget) {
         int startTargetIndex = StationRepository.searchTargetIndex(startTarget);
         int endTargetIndex = StationRepository.searchTargetIndex(endTarget);
+        Line line = lines.getLast();
+        int lineStationInputIndex=0;
 
-        Line line = lines.get(lineIndex);
         for (int index = startTargetIndex; index <= endTargetIndex; index++) {
-            line.addStationInLine(index, StationRepository.stations().get(index));
+            line.addStationInLine(lineStationInputIndex, StationRepository.getStationFromStations(index));
+            lineStationInputIndex++;
         }
     }
 }

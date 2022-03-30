@@ -17,7 +17,6 @@ public class Controller {
     private static final int SECTION_OPTION_START = 1;
     private static final int SECTION_OPTION_END = 2;
     private static final String INITIAL_STRING_VARIABLE = "";
-    private static final int LAST_INDEX_CONSTANT = 1;
 
     public void startSubwayMap(String input, Scanner scanner, User user) {
         if (input.equals(OPTION_ONE)) {
@@ -50,13 +49,13 @@ public class Controller {
         SectionView.showSectorInsertStationNameGuide();
         String userInputStationName = user.userInput(scanner);
         int stationIndex = Section.findStationIndexFromStations(userInputStationName);
-        Station station = StationRepository.stations().get(stationIndex);
+        Station station = StationRepository.getStationFromStations(stationIndex);
 
         SectionView.showSectorInsertNumberGuide();
         String userInputIndex = user.userInput(scanner);
 
-        int index = Integer.parseInt(userInputIndex) - LAST_INDEX_CONSTANT;
-        line.addStationInLine(index, station);
+        int index = (Integer.parseInt(userInputIndex));
+        line.addStationInLine(--index, station);
 
         SectionView.showSectorInsertComplete();
     }
@@ -65,27 +64,24 @@ public class Controller {
         SectionView.showSectorRemoveLineGuide();
         Line line = Section.findLineIndexFromLines(user.userInput(scanner));
 
-        if (sectionCheck(line)) {
+        SectionView.showSectorRemoveStationGuide();
+        int stationIndex = Section.findStationIndexFromStations(user.userInput(scanner));
+
+        Station station = StationRepository.getStationFromStations(stationIndex);
+        int index = line.searchTargetStationIndexInSubwayMap(station.getName());
+
+        if (removeStationInLine(line, index)) {
             return true;
         }
-        removeStationInLine(line, user, scanner);
         return false;
     }
 
-    public void removeStationInLine(Line line, User user, Scanner scanner) {
-        SectionView.showSectorRemoveStationGuide();
-        int stationIndex = Section.findStationIndexFromStations(user.userInput(scanner));
-        Station station = StationRepository.stations().get(stationIndex);
-        int index = line.searchTargetStationIndexInSubwayMap(station.getName());
-
-        line.removeStation(index);
-        SectionView.showSectorRemoveComplete();
-    }
-
-    public boolean sectionCheck(Line line) {
-        if (!Checker.isLineSizeOverTwo(line)) {
+    public boolean removeStationInLine(Line line, int index) {
+        if (line.removeStation(index, line)) {
             return true;
         }
+
+        SectionView.showSectorRemoveComplete();
         return false;
     }
 
@@ -143,25 +139,26 @@ public class Controller {
         LineView.showLineInsertNameGuide();
         String userLineNameInput = user.userInput(scanner);
 
-        if (!Checker.isLengthOverTwo(userLineNameInput) || Checker.isSameLine(userLineNameInput)) {
+        if (addLineInLineRepository(userLineNameInput, user, scanner)) {
             LineView.showLineMenuGuide();
             return true;
         }
-        addLineInLineRepository(userLineNameInput, user, scanner);
-
         return false;
     }
 
-    public void addLineInLineRepository(String userLineNameInput, User user, Scanner scanner) {
-        LineRepository.addLine(new Line(userLineNameInput));
+    public boolean addLineInLineRepository(String userLineNameInput, User user, Scanner scanner) {
+        if (LineRepository.addLine(new Line(userLineNameInput), userLineNameInput)) {
+            return true;
+        }
 
         LineView.showInsertStartStationInLineGuide();
         String startStation = user.userInput(scanner);
         LineView.showInsertEndStationInLineGuide();
         String endStation = user.userInput(scanner);
 
-        LineRepository.addStationsInLine(LineRepository.lines().size() - LAST_INDEX_CONSTANT, startStation, endStation);
+        LineRepository.addStationsInLine(startStation, endStation);
         LineView.showLineInsertComplete();
+        return false;
     }
 
     public boolean isLineOptionTwoError(User user, Scanner scanner) {
@@ -207,32 +204,35 @@ public class Controller {
         StationView.showStationInsertGuide();
         String userStationNameInput = user.userInput(scanner);
 
-        if (Checker.isLengthOverTwo(userStationNameInput)) {
-            if (!Checker.isSameName(userStationNameInput)) {
-                addStationInStationRepository(userStationNameInput);
-                return false;
-            }
+        if (addStationInStationRepository(userStationNameInput)) {
+            return true;
         }
-        return true;
+        return false;
     }
 
-    public void addStationInStationRepository(String userStationNameInput) {
-        StationRepository.addStation(new Station(userStationNameInput));
+    public boolean addStationInStationRepository(String userStationNameInput) {
+        if (StationRepository.addStation(new Station(userStationNameInput), userStationNameInput)) {
+            return true;
+        }
         StationView.showStationInsertComplete();
+        return false;
     }
 
     public boolean isStationOptionTwoError(User user, Scanner scanner) {
         StationView.showStationRemoveGuide();
         String userStationInput = user.userInput(scanner);
-        if (!Checker.isContainStationInLine(userStationInput)) {
-            deleteStationInStationRepository(userStationInput);
-            return false;
+
+        if (deleteStationInStationRepository(userStationInput)) {
+            return true;
         }
-        return true;
+        return false;
     }
 
-    public void deleteStationInStationRepository(String userStationInput) {
-        StationRepository.deleteStation(userStationInput);
+    public boolean deleteStationInStationRepository(String userStationInput) {
+        if (StationRepository.deleteStation(userStationInput)) {
+            return true;
+        }
         StationView.showStationRemoveComplete();
+        return false;
     }
 }

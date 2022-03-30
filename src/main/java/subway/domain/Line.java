@@ -1,22 +1,26 @@
 package subway.domain;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import subway.Checker;
+
+import java.util.LinkedList;
 
 public class Line {
     private String name;
-    private List<Station> subwayMap;
+    private LinkedList<Station> subwayMap;
     private static final int SEARCH_ERROR = -1;
     private static final int INITIAL_INDEX = 0;
 
     public Line(String name) {
         this.name = name;
-        subwayMap = new ArrayList<>();
+        subwayMap = new LinkedList<>();
     }
 
-    public List<Station> subwayMapList() {
-        return Collections.unmodifiableList(subwayMap);
+    public int getSubwayMapSize() {
+        return subwayMap.size();
+    }
+
+    public Station getStationFromSubwayMap(int index) {
+        return subwayMap.get(index);
     }
 
     public String getName() {
@@ -32,8 +36,13 @@ public class Line {
         return SEARCH_ERROR;
     }
 
-    public void removeStation(int index) {
-        subwayMap.remove(index);
+    public boolean removeStation(int index, Line line) {
+        //true여야 정상작동
+        if (Checker.isLineSizeOverTwo(line)) {
+            subwayMap.remove(index);
+            return false;
+        }
+        return true;
     }
 
     public void addStationInLine(int index, Station station) {

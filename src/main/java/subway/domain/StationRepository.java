@@ -1,29 +1,36 @@
 package subway.domain;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import subway.Checker;
+
+import java.util.*;
 
 public class StationRepository {
-    private static final List<Station> stations = new ArrayList<>();
+    private static final LinkedList<Station> stations = new LinkedList<>();
     private static final int INITIAL_INDEX = 0;
     private static final int SEARCH_ERROR = -1;
 
-    public static void initialStationRepository(String stationName) {
-        stations.add(new Station(stationName));
+    public static int getStationSize(){
+        return stations.size();
     }
 
-    public static List<Station> stations() {
-        return Collections.unmodifiableList(stations);
+    public static Station getStationFromStations(int index){
+        return stations.get(index);
     }
 
-    public static void addStation(Station station) {
+    public static boolean addStation(Station station, String userStationNameInput) {
+        if (!Checker.isLengthOverTwo(userStationNameInput) || Checker.isSameName(userStationNameInput)) {
+            return true;
+        }
         stations.add(station);
+        return false;
     }
 
     public static boolean deleteStation(String name) {
-        return stations.removeIf(station -> Objects.equals(station.getName(), name));
+        if (Checker.isContainStationInLine(name)) {
+            return true;
+        }
+        stations.removeIf(station -> Objects.equals(station.getName(), name));
+        return false;
     }
 
     public static int searchTargetIndex(String target) {

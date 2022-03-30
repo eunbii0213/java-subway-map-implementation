@@ -11,10 +11,10 @@ public class Checker {
     private static final int MINIMUM_LENGTH = 2;
 
     public static boolean isContainStationInLine(String userStationInput) {
-        for (int index = INITIAL_INDEX; index < LineRepository.lines().size(); index++) {
+        for (int index = INITIAL_INDEX; index < LineRepository.getLinesSize(); index++) {
             Line nowLine = LineRepository.getLines(index);
-            for (int searchIndex = INITIAL_INDEX; searchIndex < nowLine.subwayMapList().size(); searchIndex++) {
-                if (nowLine.subwayMapList().get(searchIndex).getName().equals(userStationInput)) {
+            for (int searchIndex = INITIAL_INDEX; searchIndex < nowLine.getSubwayMapSize(); searchIndex++) {
+                if (nowLine.getStationFromSubwayMap(searchIndex).getName().equals(userStationInput)) {
                     ErrorView.removeErrorStationInLine();
                     return true;
                 }
@@ -32,7 +32,7 @@ public class Checker {
     }
 
     public static boolean isLineSizeOverTwo(Line line) {
-        if (line.subwayMapList().size() <= MINIMUM_LENGTH) {
+        if (line.getSubwayMapSize() <= MINIMUM_LENGTH) {
             ErrorView.getErrorView();
             return false;
         }
@@ -40,8 +40,8 @@ public class Checker {
     }
 
     public static boolean isSameName(String userInput) {
-        for (int index = INITIAL_INDEX; index < StationRepository.stations().size(); index++) {
-            if (StationRepository.stations().get(index).getName().equals(userInput)) {
+        for (int index = INITIAL_INDEX; index < StationRepository.getStationSize(); index++) {
+            if (StationRepository.getStationFromStations(index).getName().equals(userInput)) {
                 ErrorView.addSameStationError();
                 return true;
             }
@@ -74,8 +74,8 @@ public class Checker {
     }
 
     public static boolean isSameLine(String userInput) {
-        for (int index = INITIAL_INDEX; index < LineRepository.lines().size(); index++) {
-            if (LineRepository.lines().get(index).getName().equals(userInput)) {
+        for (int index = INITIAL_INDEX; index < LineRepository.getLinesSize(); index++) {
+            if (LineRepository.getLines(index).getName().equals(userInput)) {
                 ErrorView.addSameLineError();
                 return true;
             }

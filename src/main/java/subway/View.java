@@ -3,7 +3,7 @@ package subway;
 import subway.domain.LineRepository;
 
 public class View {
-    private static final int INITIAL_INDEX = 0;
+    protected static final int INITIAL_INDEX = 0;
     protected static final String INFO_MESSAGE = "[INFO] ";
     protected static final String QUIT_GUIDE_MESSAGE = "Q. 종료";
     protected static final String GO_BACK_GUIDE_MESSAGE = "B. 돌아가기";
@@ -35,12 +35,12 @@ public class View {
     public static void printAllLineAndStationInfo() {
         System.out.println();
         System.out.println(SHOW_ALL_LINES_AND_STATIONS_MESSAGE);
-        for (int index = INITIAL_INDEX; index < LineRepository.lines().size(); index++) {
-            System.out.println(INFO_MESSAGE + LineRepository.lines().get(index).getName());
+        for (int index = INITIAL_INDEX; index < LineRepository.getLinesSize(); index++) {
+            System.out.println(INFO_MESSAGE + LineRepository.getLines(index).getName());
             System.out.println(INFO_MESSAGE + PRINT_HYPHEN);
 
-            for (int stationIndex = INITIAL_INDEX; stationIndex < LineRepository.lines().get(index).subwayMapList().size(); stationIndex++) {
-                System.out.println(INFO_MESSAGE + LineRepository.lines().get(index).subwayMapList().get(stationIndex).getName());
+            for (int stationIndex = INITIAL_INDEX; stationIndex < LineRepository.getLines(index).getSubwayMapSize(); stationIndex++) {
+                System.out.println(INFO_MESSAGE + LineRepository.getLines(index).getStationFromSubwayMap(stationIndex).getName());
             }
             System.out.println();
         }
