@@ -12,10 +12,6 @@ public class Application {
     private static final String QUIT = "Q";
 
     public static void main(String[] args) {
-        startSubwayProgram();
-    }
-
-    public static void startSubwayProgram() {
         subwayMap(new InitialBeforeStart());
     }
 
