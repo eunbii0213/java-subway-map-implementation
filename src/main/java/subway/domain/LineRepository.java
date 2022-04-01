@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.Objects;
 
 public class LineRepository {
+    private static final int INITIAL_INDEX = 0;
     private static LinkedList<Line> lines = new LinkedList<>();
 
     public static int getLinesSize() {
@@ -32,7 +33,7 @@ public class LineRepository {
         int startTargetIndex = StationRepository.searchTargetIndex(startTarget);
         int endTargetIndex = StationRepository.searchTargetIndex(endTarget);
         Line line = lines.getLast();
-        int lineStationInputIndex=0;
+        int lineStationInputIndex = INITIAL_INDEX;
 
         for (int index = startTargetIndex; index <= endTargetIndex; index++) {
             line.addStationInLine(lineStationInputIndex, StationRepository.getStationFromStations(index));

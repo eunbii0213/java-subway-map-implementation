@@ -2,7 +2,8 @@ package subway.domain;
 
 import subway.Checker;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.Objects;
 
 public class StationRepository {
     private static final LinkedList<Station> stations = new LinkedList<>();

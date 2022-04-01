@@ -37,7 +37,6 @@ public class Line {
     }
 
     public boolean removeStation(int index, Line line) {
-        //true여야 정상작동
         if (Checker.isLineSizeOverTwo(line)) {
             subwayMap.remove(index);
             return false;
