@@ -1,6 +1,6 @@
-package subway;
+package subway.view;
 
-import subway.domain.StationRepository;
+import subway.repository.StationRepository;
 
 public class StationView extends View {
     private static final String AFTER_SELECT_STATION_MANAGE_MESSAGE = "## 역 관리 화면 ";

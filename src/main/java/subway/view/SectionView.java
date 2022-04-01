@@ -1,4 +1,4 @@
-package subway;
+package subway.view;
 
 public class SectionView extends View {
     private static final String AFTER_SELECT_SECTOR_MANAGE_MESSAGE = "## 구간 관리 화면 ";

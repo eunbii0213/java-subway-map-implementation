@@ -1,6 +1,6 @@
-package subway;
+package subway.view;
 
-import subway.domain.LineRepository;
+import subway.repository.LineRepository;
 
 public class View {
     protected static final int INITIAL_INDEX = 0;

@@ -1,6 +1,7 @@
-package subway.domain;
+package subway.repository;
 
 import subway.Checker;
+import subway.domain.Line;
 
 import java.util.LinkedList;
 import java.util.Objects;

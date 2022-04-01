@@ -1,7 +1,6 @@
 package subway;
 
-import subway.domain.InitialBeforeStart;
-import subway.domain.User;
+import subway.view.View;
 
 import java.util.Scanner;
 

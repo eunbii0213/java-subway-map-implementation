@@ -1,5 +1,8 @@
 package subway.domain;
 
+import subway.repository.LineRepository;
+import subway.repository.StationRepository;
+
 public class Section {
     private static final int FIND_ERROR = -1;
     private static final int INITIAL_INDEX = 0;

@@ -1,4 +1,4 @@
-package subway;
+package subway.view;
 
 public class ErrorView extends View {
     private static final String ERROR_MESSAGE = "[ERROR] ";

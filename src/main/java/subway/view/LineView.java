@@ -1,6 +1,6 @@
-package subway;
+package subway.view;
 
-import subway.domain.LineRepository;
+import subway.repository.LineRepository;
 
 public class LineView extends View {
     private static final String AFTER_SELECT_LINE_MANAGE_MESSAGE = "## 노선 관리 화면 ";
