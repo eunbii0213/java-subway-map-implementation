@@ -2,25 +2,29 @@ package subway.repository;
 
 import subway.Checker;
 import subway.domain.Station;
+import subway.view.ErrorView;
 
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.IntStream;
 
 public class StationRepository {
     private static final LinkedList<Station> stations = new LinkedList<>();
-    private static final int INITIAL_INDEX = 0;
+    private static final int INITIALIZE_STRING_VARIABLE = 0;
     private static final int SEARCH_ERROR = -1;
 
-    public static int getStationSize(){
-        return stations.size();
+    public static List<Station> getStations() {
+        return Collections.unmodifiableList(stations);
     }
 
-    public static Station getStationFromStations(int index){
+    public static Station getStationFromStations(int index) {
         return stations.get(index);
     }
 
-    public static boolean addStation(Station station, String userStationNameInput) {
-        if (!Checker.isLengthOverTwo(userStationNameInput) || Checker.isSameName(userStationNameInput)) {
+    public static boolean addStation(Station station) {
+        if (station.getName().equals("")) {
             return true;
         }
         stations.add(station);
@@ -28,19 +32,30 @@ public class StationRepository {
     }
 
     public static boolean deleteStation(String name) {
-        if (Checker.isContainStationInLine(name)) {
-            return true;
+        int stationIndex = StationRepository.searchTargetIndex(name);
+        boolean isError = Checker.isLineOrStationInputError(stationIndex, false);
+
+        if (!isError) {
+            if (Checker.isContainStationInLine(name)) {
+                ErrorView.removeErrorStationInLine();
+                return true;
+            }
+            stations.removeIf(station -> Objects.equals(station.getName(), name));
         }
-        stations.removeIf(station -> Objects.equals(station.getName(), name));
-        return false;
+        return isError;
     }
 
     public static int searchTargetIndex(String target) {
-        for (int index = INITIAL_INDEX; index < stations.size(); index++) {
-            if (stations.get(index).getName().equals(target)) {
+        return IntStream.range(INITIALIZE_STRING_VARIABLE, stations.size()).filter(index -> stations.get(index).getName().equals(target)).findFirst().orElse(SEARCH_ERROR);
+    }
+
+    public static int findStationFromStations(String userInput) {
+
+        for (int index = INITIALIZE_STRING_VARIABLE; index < stations.size(); index++) {
+            if (stations.get(index).getName().equals(userInput)) {
                 return index;
             }
         }
-        return SEARCH_ERROR;
+        return -1;
     }
 }

@@ -3,19 +3,22 @@ package subway.repository;
 import subway.Checker;
 import subway.domain.Line;
 
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 public class LineRepository {
-    private static final int INITIAL_INDEX = 0;
+    private static final int FIND_ERROR = -1;
+    private static final int INITIALIZE_STRING_VARIABLE = 0;
     private static LinkedList<Line> lines = new LinkedList<>();
 
-    public static int getLinesSize() {
-        return lines.size();
+    public static List<Line> getLines() {
+        return Collections.unmodifiableList(lines);
     }
 
-    public static boolean addLine(Line line, String userLineNameInput) {
-        if (!Checker.isLengthOverTwo(userLineNameInput) || Checker.isSameLine(userLineNameInput)) {
+    public static boolean addLine(Line line) {
+        if (line.getName().equals("")) {
             return true;
         }
         lines.add(line);
@@ -23,22 +26,38 @@ public class LineRepository {
     }
 
     public static boolean deleteLineByName(String name) {
-        return lines.removeIf(line -> Objects.equals(line.getName(), name));
+        int lineIndex = LineRepository.findLineIndexFromLines(name);
+        boolean isError = Checker.isLineOrStationInputError(lineIndex, true);
+
+        if (!isError) {
+            Line nowLine = lines.get(lineIndex);
+            isError = !(Checker.isLineSizeOverTwo(nowLine));
+            if (!isError) {
+                lines.removeIf(line -> Objects.equals(line.getName(), name));
+            }
+        }
+        return isError;
     }
 
     public static Line getLines(int index) {
         return lines.get(index);
     }
 
-    public static void addStationsInLine(String startTarget, String endTarget) {
-        int startTargetIndex = StationRepository.searchTargetIndex(startTarget);
-        int endTargetIndex = StationRepository.searchTargetIndex(endTarget);
-        Line line = lines.getLast();
-        int lineStationInputIndex = INITIAL_INDEX;
+    public static Line getLastLine() {
+        return lines.getLast();
+    }
 
-        for (int index = startTargetIndex; index <= endTargetIndex; index++) {
-            line.addStationInLine(lineStationInputIndex, StationRepository.getStationFromStations(index));
-            lineStationInputIndex++;
+    public static void removeLastLine() {
+        lines.remove(lines.getLast());
+    }
+
+    public static int findLineIndexFromLines(String userInput) {
+
+        for (int index = INITIALIZE_STRING_VARIABLE; index < lines.size(); index++) {
+            if (lines.get(index).getName().equals(userInput)) {
+                return index;
+            }
         }
+        return FIND_ERROR;
     }
 }

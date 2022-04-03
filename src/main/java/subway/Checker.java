@@ -1,24 +1,54 @@
 package subway;
 
+import subway.domain.Line;
+import subway.domain.Station;
 import subway.repository.LineRepository;
 import subway.repository.StationRepository;
-import subway.domain.Line;
 import subway.view.ErrorView;
+
+import java.util.List;
 
 public class Checker {
     private static final String QUIT = "Q";
     private static final String GO_BACK = "B";
-    private static final int INITIAL_INDEX = 0;
     private static final int MINIMUM_LENGTH = 2;
+    private static final int SEARCH_ERROR = -1;
+
+    public static boolean isUserNumberInputError(int userInputIndex, int subwayMapSize) {
+        if (userInputIndex > subwayMapSize) {
+            ErrorView.userNumberInputError();
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isLineOrStationInputError(int searchResult, boolean isForLine) {
+        if (searchResult == SEARCH_ERROR) {
+            if (isForLine) {
+                ErrorView.findLineError();
+                return true;
+            }
+            ErrorView.findStationError();
+            return true;
+        }
+        return false;
+    }
 
     public static boolean isContainStationInLine(String userStationInput) {
-        for (int index = INITIAL_INDEX; index < LineRepository.getLinesSize(); index++) {
-            Line nowLine = LineRepository.getLines(index);
-            for (int searchIndex = INITIAL_INDEX; searchIndex < nowLine.getSubwayMapSize(); searchIndex++) {
-                if (nowLine.getStationFromSubwayMap(searchIndex).getName().equals(userStationInput)) {
-                    ErrorView.removeErrorStationInLine();
+        for (Line line : LineRepository.getLines()) {
+            for (Station station : line.getSubwayMap()) {
+                if (station.getName().equals(userStationInput)) {
                     return true;
                 }
+            }
+        }
+        return false;
+    }
+
+    public static boolean isContainStationInOneLine(String userStationInput, List<Station> subwayMap) {
+        for (Station station : subwayMap) {
+            if (station.getName().equals(userStationInput)) {
+                return true;
             }
         }
         return false;
@@ -41,8 +71,9 @@ public class Checker {
     }
 
     public static boolean isSameName(String userInput) {
-        for (int index = INITIAL_INDEX; index < StationRepository.getStationSize(); index++) {
-            if (StationRepository.getStationFromStations(index).getName().equals(userInput)) {
+
+        for (Station station : StationRepository.getStations()) {
+            if (station.getName().equals(userInput)) {
                 ErrorView.addSameStationError();
                 return true;
             }
@@ -75,8 +106,8 @@ public class Checker {
     }
 
     public static boolean isSameLine(String userInput) {
-        for (int index = INITIAL_INDEX; index < LineRepository.getLinesSize(); index++) {
-            if (LineRepository.getLines(index).getName().equals(userInput)) {
+        for (Line line : LineRepository.getLines()) {
+            if (line.getName().equals(userInput)) {
                 ErrorView.addSameLineError();
                 return true;
             }

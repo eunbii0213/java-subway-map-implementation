@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Application {
     private static final int MAIN_MENU_OPTION_START = 1;
     private static final int MAIN_MENU_OPTION_END = 4;
-    private static final String INITIAL_STRING_VARIABLE = "";
+    private static final String INITIALIZE_STRING_VARIABLE = "";
     private static final String QUIT = "Q";
 
     public static void main(String[] args) {
@@ -15,8 +15,8 @@ public class Application {
     }
 
     private static void subwayMap(InitialBeforeStart initialBeforeStart) {
-        initialBeforeStart.initialLineRepository();
         initialBeforeStart.initialStationRepository();
+        initialBeforeStart.initialLineRepository();
 
         subwayProgramStart();
     }
@@ -25,7 +25,7 @@ public class Application {
         final Scanner scanner = new Scanner(System.in);
         User user = new User();
         Controller controller = new Controller();
-        String input = INITIAL_STRING_VARIABLE;
+        String input = INITIALIZE_STRING_VARIABLE;
 
         while (!input.equals(QUIT)) {
             View.showMainGuide();
