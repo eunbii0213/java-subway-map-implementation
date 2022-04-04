@@ -51,8 +51,11 @@ public class LineRepository {
         lines.remove(lines.getLast());
     }
 
-    public static int findLineIndexFromLines(String userInput) {
+    public static Line findLineFromLinesUsingUserInput(String userInput) {
+        return lines.get(findLineIndexFromLines(userInput));
+    }
 
+    public static int findLineIndexFromLines(String userInput) {
         for (int index = INITIALIZE_STRING_VARIABLE; index < lines.size(); index++) {
             if (lines.get(index).getName().equals(userInput)) {
                 return index;

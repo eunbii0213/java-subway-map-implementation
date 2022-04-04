@@ -86,6 +86,23 @@ public class Line {
         return false;
     }
 
+    public boolean addStationInLine(String userInputStationName){
+        int stationIndex = StationRepository.findStationFromStations(userInputStationName);
+        boolean isError = Checker.isLineOrStationInputError(stationIndex, false);
+
+        if (!isError) {
+            isError = Checker.isContainStationInOneLine(userInputStationName, getSubwayMap());
+            if (isError) {
+                ErrorView.sameStationError();
+                return isError;
+            }
+
+            Station station = StationRepository.getStationFromStations(stationIndex);
+            subwayMap.add(station);
+        }
+        return isError;
+    }
+
     public boolean addStationInLine(int index, String userInputStationName) {
         if (Checker.isUserNumberInputError(index, subwayMap.size())) {
             return true;
@@ -104,7 +121,6 @@ public class Line {
             Station station = StationRepository.getStationFromStations(stationIndex);
             subwayMap.add(index, station);
         }
-
         return isError;
     }
 }
