@@ -1,61 +1,65 @@
 package subway.repository;
 
-import subway.Checker;
 import subway.domain.Station;
-import subway.view.ErrorView;
 
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.IntStream;
 
 public class StationRepository {
     private static final LinkedList<Station> stations = new LinkedList<>();
     private static final int INITIALIZE_STRING_VARIABLE = 0;
-    private static final int SEARCH_ERROR = -1;
 
     public static List<Station> getStations() {
         return Collections.unmodifiableList(stations);
     }
 
-    public static Station getStationFromStations(int index) {
+    public static Station getStation(int index) {
         return stations.get(index);
     }
 
-    public static boolean addStation(Station station) {
-        if (station.getName().equals("")) {
-            return true;
+    public static void addStation(Station station) {
+        if (Objects.isNull(station)) {
+            throw new IllegalArgumentException("\n[ERROR] 올바른 역 이름을 입력해주세요.");
         }
+
+        stations.stream().filter(nowStation -> nowStation.getName()
+                        .equals(station.getName()))
+                .forEachOrdered(nowStation -> {
+                    throw new IllegalArgumentException("\n[ERROR] 이미 추가된 역입니다.");
+                });
         stations.add(station);
-        return false;
     }
 
-    public static boolean deleteStation(String name) {
-        int stationIndex = StationRepository.searchTargetIndex(name);
-        boolean isError = Checker.isLineOrStationInputError(stationIndex, false);
+    public static void deleteStation(String name) {
+        try {
+            StationRepository.findStationIndex(name);
+            LineRepository.getLines().forEach(line -> line.checkStationExistInLine(name));
 
-        if (!isError) {
-            if (Checker.isContainStationInLine(name)) {
-                ErrorView.removeErrorStationInLine();
-                return true;
-            }
             stations.removeIf(station -> Objects.equals(station.getName(), name));
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
         }
-        return isError;
     }
 
-    public static int searchTargetIndex(String target) {
-        return IntStream.range(INITIALIZE_STRING_VARIABLE, stations.size()).filter(index -> stations.get(index).getName().equals(target)).findFirst().orElse(SEARCH_ERROR);
+    public static Station findStation(String userInput) {
+        for (Station station : stations) {
+            if (station.getName().equals(userInput)) {
+                return station;
+            }
+        }
+        throw new IllegalArgumentException("\n[ERROR] 올바른 역 이름을 입력해주세요.");
     }
 
-    public static int findStationFromStations(String userInput) {
-
-        for (int index = INITIALIZE_STRING_VARIABLE; index < stations.size(); index++) {
+    public static int findStationIndex(String userInput) {
+        int index = INITIALIZE_STRING_VARIABLE;
+        while (index < stations.size()) {
             if (stations.get(index).getName().equals(userInput)) {
                 return index;
             }
+            index++;
         }
-        return -1;
+        throw new IllegalArgumentException("\n[ERROR] 올바른 역 이름을 입력해주세요.");
     }
 }

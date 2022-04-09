@@ -1,6 +1,5 @@
 package subway.repository;
 
-import subway.Checker;
 import subway.domain.Line;
 
 import java.util.Collections;
@@ -9,58 +8,62 @@ import java.util.List;
 import java.util.Objects;
 
 public class LineRepository {
-    private static final int FIND_ERROR = -1;
     private static final int INITIALIZE_STRING_VARIABLE = 0;
-    private static LinkedList<Line> lines = new LinkedList<>();
+    private static final LinkedList<Line> lines = new LinkedList<>();
 
     public static List<Line> getLines() {
         return Collections.unmodifiableList(lines);
     }
 
-    public static boolean addLine(Line line) {
-        if (line.getName().equals("")) {
-            return true;
+    public static void addLine(Line line) {
+        try {
+            checkNull(line);
+            checkSameLine(line.getName());
+            lines.add(line);
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
         }
-        lines.add(line);
-        return false;
     }
 
-    public static boolean deleteLineByName(String name) {
-        int lineIndex = LineRepository.findLineIndexFromLines(name);
-        boolean isError = Checker.isLineOrStationInputError(lineIndex, true);
-
-        if (!isError) {
-            Line nowLine = lines.get(lineIndex);
-            isError = !(Checker.isLineSizeOverTwo(nowLine));
-            if (!isError) {
-                lines.removeIf(line -> Objects.equals(line.getName(), name));
-            }
+    public static void checkNull(Line line) {
+        if (Objects.isNull(line)) {
+            throw new IllegalArgumentException("\n[ERROR] 올바른 노선 이름을 입력해주세요.");
         }
-        return isError;
+    }
+
+    public static void checkSameLine(String lineName) {
+        lines.stream().filter(line -> line.getName()
+                        .equals(lineName))
+                .forEach(line -> {
+                    throw new IllegalArgumentException("\n[ERROR] 이미 등록된 노선 이름입니다.");
+                });
+    }
+
+    public static void deleteLineByName(String name) {
+        try {
+            findLineIndexFromLines(name);
+            lines.removeIf(line -> Objects.equals(line.getName(), name));
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
     }
 
     public static Line getLines(int index) {
         return lines.get(index);
     }
 
-    public static Line getLastLine() {
-        return lines.getLast();
-    }
-
     public static void removeLastLine() {
         lines.remove(lines.getLast());
     }
 
-    public static Line findLineFromLinesUsingUserInput(String userInput) {
-        return lines.get(findLineIndexFromLines(userInput));
-    }
-
     public static int findLineIndexFromLines(String userInput) {
-        for (int index = INITIALIZE_STRING_VARIABLE; index < lines.size(); index++) {
+        int index = INITIALIZE_STRING_VARIABLE;
+        while (index < lines.size()) {
             if (lines.get(index).getName().equals(userInput)) {
                 return index;
             }
+            index++;
         }
-        return FIND_ERROR;
+        throw new IllegalArgumentException("\n[ERROR] 올바른 노선 이름을 입력해주세요.");
     }
 }

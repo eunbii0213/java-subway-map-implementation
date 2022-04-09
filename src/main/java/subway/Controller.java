@@ -1,5 +1,7 @@
 package subway;
 
+import subway.Input.MenuInput;
+import subway.Input.UserInput;
 import subway.domain.Line;
 import subway.domain.Station;
 import subway.repository.LineRepository;
@@ -32,234 +34,279 @@ public class Controller {
     private static final int LINE_OPTION_END = 3;
     private static final int SECTION_OPTION_START = 1;
     private static final int SECTION_OPTION_END = 2;
-    private static final int LAST_INDEX = 1;
 
-    public void startSubwayMap(String input, Scanner scanner, User user) {
-        if (input.equals(START_STATION_MANAGEMENT)) {
+    public void startSubwayMap(String userInput, Scanner scanner) {
+        if (userInput.equals(START_STATION_MANAGEMENT)) {
             StationView.showStationMenuGuide();
-            stationManage(scanner, user);
+            stationManage(scanner,INITIALIZE_STRING_VARIABLE);
         }
-        if (input.equals(START_LINE_MANAGEMENT)) {
+        if (userInput.equals(START_LINE_MANAGEMENT)) {
             LineView.showLineMenuGuide();
-            lineManage(scanner, user);
+            lineManage(scanner);
         }
-        if (input.equals(START_SECTION_MANAGEMENT)) {
-            SectionView.showSectorMenuGuide();
-            sectionManage(scanner, user);
+        if (userInput.equals(START_SECTION_MANAGEMENT)) {
+            SectionView.showSectionMenuGuide();
+            sectionManage(scanner);
         }
-        if (input.equals(PRINT_ALL_LINES_AND_STATIONS)) {
+        if (userInput.equals(PRINT_ALL_LINES_AND_STATIONS)) {
             View.printAllLineAndStationInfo();
         }
     }
 
-    public boolean isSectionAddError(Scanner scanner, User user) {
-        if (addSectionInLines(scanner, user)) {
-            return true;
+    public void sectionAddOption(Scanner scanner) {
+        try {
+            addSectionInLine(scanner);
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
         }
-        return false;
     }
 
-    public boolean addSectionInLines(Scanner scanner, User user) {
-        SectionView.showSectorInsertGuide();
-        String userInputLineName = user.userInput(scanner);
-        int lineIndex = LineRepository.findLineIndexFromLines(userInputLineName);
-        boolean isError = Checker.isLineOrStationInputError(lineIndex, true);
-
-        if (!isError) {
+    public void addSectionInLine(Scanner scanner) {
+        SectionView.showSectionInsertGuide();
+        try {
+            String userInputLineName = new UserInput().userInput(scanner);
+            int lineIndex = LineRepository.findLineIndexFromLines(userInputLineName);
             Line line = LineRepository.getLines(lineIndex);
-            SectionView.showSectorInsertStationNameGuide();
-            String userInputStationName = user.userInput(scanner);
-            SectionView.showSectorInsertNumberGuide();
-            isError = line.addStationInLine(Integer.parseInt(user.userInput(scanner)) - LAST_INDEX, userInputStationName);
 
-            if (!isError) {
-                SectionView.showSectorInsertComplete();
+            SectionView.showSectorInsertStationNameGuide();
+            String userInputStationName = new UserInput().userInput(scanner);
+            line.checkStationExistInSubwayMap(userInputStationName);
+
+            SectionView.showSectorInsertNumberGuide();
+            line.addStationInLine(Integer.parseInt(new UserInput().userInput(scanner)), userInputStationName);
+
+            SectionView.showSectorInsertComplete();
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+    }
+
+    public void sectionRemoveOption(Scanner scanner) {
+        SectionView.showSectorRemoveLineGuide();
+        try {
+            int lineIndex = LineRepository.findLineIndexFromLines(new UserInput().userInput(scanner));
+            Line line = LineRepository.getLines(lineIndex);
+
+            SectionView.showSectorRemoveStationGuide();
+            String stationName = new UserInput().userInput(scanner);
+
+            removeStationInLine(line, stationName);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void removeStationInLine(Line line, String stationName) {
+        try {
+            line.removeStation(stationName);
+            SectionView.showSectorRemoveComplete();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void sectionManage(Scanner scanner) {
+        String userInput = INITIALIZE_STRING_VARIABLE;
+        MenuInput input;
+        SectionView.showSectionMenuGuide();
+
+        while (!userInput.equals(GO_BACK)) {
+            SectionView.showSelectGuideMessage();
+            try {
+                input = new MenuInput(scanner, SECTION_OPTION_START, SECTION_OPTION_END, false);
+                userInput = input.getUserInput();
+                try {
+                    selectOptionInSectionManage(userInput, scanner, input);
+                    break;
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                    SectionView.showSectionMenuGuide();
+                    continue;
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
         }
-        return isError;
     }
 
-    public boolean isSectionRemoveError(Scanner scanner, User user) {
-        SectionView.showSectorRemoveLineGuide();
-        int lineIndex = LineRepository.findLineIndexFromLines(user.userInput(scanner));
-        boolean isError = Checker.isLineOrStationInputError(lineIndex, true);
-        if (!isError) {
-            Line line = LineRepository.getLines(lineIndex);
-            SectionView.showSectorRemoveStationGuide();
-            String stationName = user.userInput(scanner);
-            isError = removeStationInLine(line, stationName);
-        }
-        return isError;
-    }
-
-    public boolean removeStationInLine(Line line, String stationName) {
-        if (line.removeStation(line, stationName)) {
-            return true;
-        }
-        SectionView.showSectorRemoveComplete();
-        return false;
-    }
-
-    public void sectionManage(Scanner scanner, User user) {
-        boolean isGetUserInput = true;
-        String input = INITIALIZE_STRING_VARIABLE;
-
-        while (!input.equals(GO_BACK) && isGetUserInput) {
-            SectionView.showSelectGuideMessage();
-            input = user.userInput(scanner);
-
-            isGetUserInput = Checker.checkUserInputIsNotValid(input, SECTION_OPTION_START, SECTION_OPTION_END, false);
-            isGetUserInput = whichOptionInSectionManage(input, isGetUserInput, scanner, user);
+    public void selectOptionInSectionManage(String userInput, Scanner scanner, MenuInput input) {
+        try {
+            if (userInput.equals(SECTION_ADD)) {
+                sectionAddOption(scanner);
+            }
+            if (userInput.equals(SECTION_REMOVE)) {
+                sectionRemoveOption(scanner);
+            }
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 
-    public boolean whichOptionInSectionManage(String input, boolean isGetUserInput, Scanner scanner, User user) {
-        if (input.equals(SECTION_ADD)) {
-            isGetUserInput = isSectionAddError(scanner, user);
+    public void lineManage(Scanner scanner) {
+        String userInput = INITIALIZE_STRING_VARIABLE;
+        MenuInput input;
+
+        while (!userInput.equals(GO_BACK)) {
+            try {
+                LineView.showSelectGuideMessage();
+                input = new MenuInput(scanner, LINE_OPTION_START, LINE_OPTION_END, false);
+                userInput = input.getUserInput();
+                try {
+                    selectOptionInLineManage(scanner, userInput);
+                    break;
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                    LineView.showLineMenuGuide();
+                    continue;
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                continue;
+            }
         }
-        if (input.equals(SECTION_REMOVE)) {
-            isGetUserInput = isSectionRemoveError(scanner, user);
-        }
-        if (isGetUserInput) {
-            SectionView.showSectorMenuGuide();
-        }
-        return isGetUserInput;
     }
 
-    public void lineManage(Scanner scanner, User user) {
-        boolean isGetUserInput = true;
-        String input = INITIALIZE_STRING_VARIABLE;
-
-        while (!input.equals(GO_BACK) && isGetUserInput) {
-            LineView.showSelectGuideMessage();
-            input = user.userInput(scanner);
-
-            isGetUserInput = Checker.checkUserInputIsNotValid(input, LINE_OPTION_START, LINE_OPTION_END, false);
-            isGetUserInput = whichOptionInLineManage(input, isGetUserInput, user, scanner);
+    public void selectOptionInLineManage(Scanner scanner, String userInput) {
+        UserInput input = new UserInput();
+        try {
+            if (userInput.equals(LINE_ADD)) {
+                lineAddOption(scanner);
+            }
+            if (userInput.equals(LINE_REMOVE)) {
+                lineRemoveOption(scanner, input);
+            }
+            if (userInput.equals(PRINT_ALL_LINES)) {
+                LineView.showLineAllMessage();
+            }
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 
-    public boolean whichOptionInLineManage(String input, boolean isGetUserInput, User user, Scanner scanner) {
-        if (input.equals(LINE_ADD)) {
-            isGetUserInput = isLineAddError(user, scanner);
-        }
-        if (input.equals(LINE_REMOVE)) {
-            isGetUserInput = isLineRemoveError(user, scanner);
-        }
-        if (input.equals(PRINT_ALL_LINES)) {
-            isGetUserInput = LineView.showLineAllMessage();
-        }
-        if (isGetUserInput) {
-            LineView.showLineMenuGuide();
-        }
-        return isGetUserInput;
-    }
-
-    public boolean isLineAddError(User user, Scanner scanner) {
+    public void lineAddOption(Scanner scanner) {
         LineView.showLineInsertNameGuide();
-        String userLineNameInput = user.userInput(scanner);
+        UserInput input = new UserInput();
+        String userLineNameInput = input.userInput(scanner);
 
-        if (addLineInLineRepository(userLineNameInput, user, scanner)) {
-            LineRepository.removeLastLine();
-            return true;
+        try {
+            addLineInLineRepository(userLineNameInput, input, scanner);
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
         }
-        return false;
     }
 
-    //20line.
-    public boolean addLineInLineRepository(String userLineNameInput, User user, Scanner scanner) {
-        if (LineRepository.addLine(new Line(userLineNameInput))) {
-            return true;
-        }
+    public void addLineInLineRepository(String userLineNameInput, UserInput input, Scanner scanner) {
         LineView.showInsertStartStationInLineGuide();
-        String startStation = user.userInput(scanner);
+        String startStationName = input.userInput(scanner);
+        try {
+            Station startStation = StationRepository.getStation(StationRepository.findStationIndex(startStationName));
 
-        LineView.showInsertEndStationInLineGuide();
-        String endStation = user.userInput(scanner);
+            LineView.showInsertEndStationInLineGuide();
+            String endStationName = input.userInput(scanner);
+            Station endStation = StationRepository.getStation(StationRepository.findStationIndex(endStationName));
+            LineRepository.addLine(Line.createLineEntity(userLineNameInput, startStation, endStation));
 
-        Line line = LineRepository.getLastLine();
-        boolean isError = line.addStationsInLine(startStation, endStation);
-
-        if (!isError) {
-            LineView.showLineInsertComplete();
+            try {
+                LineView.showLineInsertComplete();
+            } catch (Exception e) {
+                LineRepository.removeLastLine();
+            }
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
         }
-        return isError;
     }
 
-    public boolean isLineRemoveError(User user, Scanner scanner) {
+    public void lineRemoveOption(Scanner scanner, UserInput input) {
         LineView.showLineRemoveGuide();
-        String userRemoveLineInput = user.userInput(scanner);
-        boolean isError = removeLineInLineRepository(userRemoveLineInput);
-        return isError;
+        String userRemoveLineInput = input.userInput(scanner);
+        try {
+            removeLineInLineRepository(userRemoveLineInput);
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
     }
 
-    public boolean removeLineInLineRepository(String userRemoveLineInput) {
-        boolean isError = LineRepository.deleteLineByName(userRemoveLineInput);
-        if (!isError) {
+    public void removeLineInLineRepository(String userRemoveLineInput) {
+        try {
+            LineRepository.deleteLineByName(userRemoveLineInput);
             LineView.showLineRemoveComplete();
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
         }
-        return isError;
     }
 
-    public void stationManage(Scanner scanner, User user) {
-        boolean isGetUserInput = true;
-        String input = INITIALIZE_STRING_VARIABLE;
-
-        while (!input.equals(GO_BACK) && isGetUserInput) {
+    public void stationManage(Scanner scanner,String userInput) {
+        while (!userInput.equals(GO_BACK)) {
             StationView.showSelectGuideMessage();
-            input = scanner.nextLine();
 
-            isGetUserInput = Checker.checkUserInputIsNotValid(input, STATION_OPTION_START, STATION_OPTION_END, false);
-            isGetUserInput = whichOptionInStationManage(input, isGetUserInput, user, scanner);
+            try {
+                MenuInput menuInput = new MenuInput(scanner, STATION_OPTION_START, STATION_OPTION_END, false);
+                try {
+                    userInput = menuInput.getUserInput();
+                    selectOptionInStationManage(userInput, scanner);
+                    break;
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                    StationView.showStationMenuGuide();
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 
-    public boolean whichOptionInStationManage(String input, boolean isGetUserInput, User user, Scanner scanner) {
-        if (input.equals(STATION_ADD)) {
-            isGetUserInput = isStationAddError(user, scanner);
+    public void selectOptionInStationManage(String userInput, Scanner scanner) {
+        try {
+            if (userInput.equals(STATION_ADD)) {
+                stationAddOption(scanner);
+            }
+            if (userInput.equals(STATION_REMOVE)) {
+                stationRemoveOption(scanner);
+            }
+            if (userInput.equals(PRINT_ALL_STATIONS)) {
+                StationView.showStationAllMessage();
+            }
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
         }
-        if (input.equals(STATION_REMOVE)) {
-            isGetUserInput = isStationRemoveError(user, scanner);
-        }
-        if (input.equals(PRINT_ALL_STATIONS)) {
-            isGetUserInput = StationView.showStationAllMessage();
-        }
-        if (isGetUserInput) {
-            StationView.showStationMenuGuide();
-        }
-        return isGetUserInput;
     }
 
-    public boolean isStationAddError(User user, Scanner scanner) {
+    public void stationAddOption(Scanner scanner) {
         StationView.showStationInsertGuide();
-        String userStationNameInput = user.userInput(scanner);
 
-        if (addStationInStationRepository(userStationNameInput)) {
-            return true;
+        try {
+            String userStationNameInput = new UserInput().userInput(scanner);
+            addStationInStationRepository(userStationNameInput);
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
         }
-        return false;
     }
 
-    public static boolean addStationInStationRepository(String userStationNameInput) {
-        if (StationRepository.addStation(new Station(userStationNameInput))) {
-            return true;
+    public static void addStationInStationRepository(String userStationNameInput) {
+        try {
+            StationRepository.addStation(Station.createStationEntity(userStationNameInput));
+            StationView.showStationInsertComplete();
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
         }
-        StationView.showStationInsertComplete();
-        return false;
     }
 
-    public boolean isStationRemoveError(User user, Scanner scanner) {
+    public void stationRemoveOption(Scanner scanner) {
         StationView.showStationRemoveGuide();
-        String userStationInput = user.userInput(scanner);
-        boolean isError = deleteStationInStationRepository(userStationInput);
-        return isError;
+        String userStationInput = new UserInput().userInput(scanner);
+        try {
+            deleteStationInStationRepository(userStationInput);
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
     }
 
-    public boolean deleteStationInStationRepository(String userStationInput) {
-        if (StationRepository.deleteStation(userStationInput)) {
-            return true;
+    public void deleteStationInStationRepository(String userStationInput) {
+        try {
+            StationRepository.deleteStation(userStationInput);
+            StationView.showStationRemoveComplete();
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
         }
-        StationView.showStationRemoveComplete();
-        return false;
     }
 }

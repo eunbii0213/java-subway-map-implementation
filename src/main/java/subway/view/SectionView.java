@@ -12,7 +12,7 @@ public class SectionView extends View {
     private static final String SECTION_REMOVE_STATION_GUIDE_MESSAGE = "## 삭제할 구간의 역을 입력하세요.";
     private static final String SECTION_REMOVE_COMPLETE_MESSAGE = "구간이 삭제되었습니다.";
 
-    public static void showSectorMenuGuide() {
+    public static void showSectionMenuGuide() {
         System.out.println();
         System.out.println(AFTER_SELECT_SECTOR_MANAGE_MESSAGE);
         System.out.println(ADD_SECTOR_GUIDE_MESSAGE);
@@ -21,7 +21,7 @@ public class SectionView extends View {
         System.out.println();
     }
 
-    public static void showSectorInsertGuide() {
+    public static void showSectionInsertGuide() {
         System.out.println();
         System.out.println(SECTION_INSERT_NAME_GUIDE_MESSAGE);
     }

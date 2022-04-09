@@ -1,7 +1,5 @@
 package subway.view;
 
-import subway.domain.Line;
-import subway.domain.Station;
 import subway.repository.LineRepository;
 
 public class View {
@@ -26,7 +24,6 @@ public class View {
         System.out.println(SHOW_LINE_GUIDE_MESSAGE);
         System.out.println(QUIT_GUIDE_MESSAGE);
         System.out.println();
-        showSelectGuideMessage();
     }
 
     public static void showSelectGuideMessage() {
@@ -37,13 +34,11 @@ public class View {
         System.out.println();
         System.out.println(SHOW_ALL_LINES_AND_STATIONS_MESSAGE);
 
-        for (Line line : LineRepository.getLines()) {
+        LineRepository.getLines().forEach(line -> {
             System.out.println(INFO_MESSAGE + line.getName());
             System.out.println(INFO_MESSAGE + PRINT_HYPHEN);
-            for (Station station : line.getSubwayMap()) {
-                System.out.println(INFO_MESSAGE + station.getName());
-            }
+            line.getSubwayMap().stream().map(station -> INFO_MESSAGE + station.getName()).forEach(System.out::println);
             System.out.println();
-        }
+        });
     }
 }

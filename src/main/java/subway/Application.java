@@ -1,5 +1,6 @@
 package subway;
 
+import subway.Input.MenuInput;
 import subway.view.View;
 
 import java.util.Scanner;
@@ -11,27 +12,35 @@ public class Application {
     private static final String QUIT = "Q";
 
     public static void main(String[] args) {
-        subwayMap(new InitialBeforeStart());
+        InitializeAndProgramStart();
     }
 
-    private static void subwayMap(InitialBeforeStart initialBeforeStart) {
-        initialBeforeStart.initialStationRepository();
-        initialBeforeStart.initialLineRepository();
+    private static void InitializeAndProgramStart() {
+        Initialization initialization = new Initialization();
+        initialization.initializeStationRepository();
+        initialization.initializeLineRepository();
 
         subwayProgramStart();
     }
 
     public static void subwayProgramStart() {
         final Scanner scanner = new Scanner(System.in);
-        User user = new User();
         Controller controller = new Controller();
-        String input = INITIALIZE_STRING_VARIABLE;
+        String userInput = INITIALIZE_STRING_VARIABLE;
 
-        while (!input.equals(QUIT)) {
-            View.showMainGuide();
-            input = user.userInput(scanner);
-            if (!Checker.checkUserInputIsNotValid(input, MAIN_MENU_OPTION_START, MAIN_MENU_OPTION_END, true)) {
-                controller.startSubwayMap(input, scanner, user);
+        View.showMainGuide();
+        while (!userInput.equals(QUIT)) {
+            try {
+                View.showSelectGuideMessage();
+                MenuInput menuInput = new MenuInput(scanner, MAIN_MENU_OPTION_START, MAIN_MENU_OPTION_END, true);
+                userInput = menuInput.getUserInput();
+                controller.startSubwayMap(userInput, scanner);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                continue;
+            }
+            if (!userInput.equals(QUIT)) {
+                View.showMainGuide();
             }
         }
     }
