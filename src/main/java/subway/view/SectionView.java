@@ -55,4 +55,9 @@ public class SectionView extends View {
         System.out.println();
         System.out.println(INFO_MESSAGE + SECTION_REMOVE_COMPLETE_MESSAGE);
     }
+
+    public static void sectionManageOptionInputErrorView(Exception e) {
+        System.out.println(e.getMessage());
+        SectionView.showSectionMenuGuide();
+    }
 }

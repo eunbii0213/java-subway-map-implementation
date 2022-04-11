@@ -41,4 +41,8 @@ public class View {
             System.out.println();
         });
     }
+
+    public static void showExceptionMessage(Exception e) {
+        System.out.println(e.getMessage());
+    }
 }

@@ -65,4 +65,9 @@ public class LineView extends View {
         }
         return false;
     }
+
+    public static void lineManageOptionInputErrorView(Exception e) {
+        System.out.println(e.getMessage());
+        LineView.showLineMenuGuide();
+    }
 }

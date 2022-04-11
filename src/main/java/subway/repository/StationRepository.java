@@ -24,8 +24,8 @@ public class StationRepository {
             throw new IllegalArgumentException("\n[ERROR] 올바른 역 이름을 입력해주세요.");
         }
 
-        stations.stream().filter(nowStation -> nowStation.getName()
-                        .equals(station.getName()))
+        stations.stream().filter(nowStation -> nowStation
+                        .getName().equals(station.getName()))
                 .forEachOrdered(nowStation -> {
                     throw new IllegalArgumentException("\n[ERROR] 이미 추가된 역입니다.");
                 });

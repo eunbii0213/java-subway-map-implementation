@@ -36,7 +36,7 @@ public class Application {
                 userInput = menuInput.getUserInput();
                 controller.startSubwayMap(userInput, scanner);
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                View.showExceptionMessage(e);
                 continue;
             }
             if (!userInput.equals(QUIT)) {

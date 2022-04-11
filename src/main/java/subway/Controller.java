@@ -42,11 +42,11 @@ public class Controller {
         }
         if (userInput.equals(START_LINE_MANAGEMENT)) {
             LineView.showLineMenuGuide();
-            lineManage(scanner);
+            lineManage(scanner, INITIALIZE_STRING_VARIABLE);
         }
         if (userInput.equals(START_SECTION_MANAGEMENT)) {
             SectionView.showSectionMenuGuide();
-            sectionManage(scanner);
+            sectionManage(scanner, INITIALIZE_STRING_VARIABLE);
         }
         if (userInput.equals(PRINT_ALL_LINES_AND_STATIONS)) {
             View.printAllLineAndStationInfo();
@@ -62,9 +62,8 @@ public class Controller {
     }
 
     public void addSectionInLine(Scanner scanner) {
-        SectionView.showSectionInsertGuide();
+        String userInputLineName = new UserInput().userInput(scanner);
         try {
-            String userInputLineName = new UserInput().userInput(scanner);
             int lineIndex = LineRepository.findLineIndexFromLines(userInputLineName);
             Line line = LineRepository.getLines(lineIndex);
 
@@ -82,17 +81,15 @@ public class Controller {
     }
 
     public void sectionRemoveOption(Scanner scanner) {
-        SectionView.showSectorRemoveLineGuide();
         try {
             int lineIndex = LineRepository.findLineIndexFromLines(new UserInput().userInput(scanner));
             Line line = LineRepository.getLines(lineIndex);
 
             SectionView.showSectorRemoveStationGuide();
             String stationName = new UserInput().userInput(scanner);
-
             removeStationInLine(line, stationName);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            View.showExceptionMessage(e);
         }
     }
 
@@ -101,40 +98,37 @@ public class Controller {
             line.removeStation(stationName);
             SectionView.showSectorRemoveComplete();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            View.showExceptionMessage(e);
         }
     }
 
-    public void sectionManage(Scanner scanner) {
-        String userInput = INITIALIZE_STRING_VARIABLE;
-        MenuInput input;
-        SectionView.showSectionMenuGuide();
-
+    public void sectionManage(Scanner scanner, String userInput) {
         while (!userInput.equals(GO_BACK)) {
             SectionView.showSelectGuideMessage();
             try {
-                input = new MenuInput(scanner, SECTION_OPTION_START, SECTION_OPTION_END, false);
+                MenuInput input = new MenuInput(scanner, SECTION_OPTION_START, SECTION_OPTION_END, false);
                 userInput = input.getUserInput();
                 try {
-                    selectOptionInSectionManage(userInput, scanner, input);
+                    selectOptionInSectionManage(userInput, scanner);
                     break;
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                    SectionView.showSectionMenuGuide();
-                    continue;
+                    SectionView.sectionManageOptionInputErrorView(e);
+                    //continue;
                 }
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                View.showExceptionMessage(e);
             }
         }
     }
 
-    public void selectOptionInSectionManage(String userInput, Scanner scanner, MenuInput input) {
+    public void selectOptionInSectionManage(String userInput, Scanner scanner) {
         try {
             if (userInput.equals(SECTION_ADD)) {
+                SectionView.showSectionInsertGuide();
                 sectionAddOption(scanner);
             }
             if (userInput.equals(SECTION_REMOVE)) {
+                SectionView.showSectorRemoveLineGuide();
                 sectionRemoveOption(scanner);
             }
         } catch (Exception e) {
@@ -142,26 +136,21 @@ public class Controller {
         }
     }
 
-    public void lineManage(Scanner scanner) {
-        String userInput = INITIALIZE_STRING_VARIABLE;
-        MenuInput input;
-
+    public void lineManage(Scanner scanner, String userInput) {
         while (!userInput.equals(GO_BACK)) {
             try {
                 LineView.showSelectGuideMessage();
-                input = new MenuInput(scanner, LINE_OPTION_START, LINE_OPTION_END, false);
+                MenuInput input = new MenuInput(scanner, LINE_OPTION_START, LINE_OPTION_END, false);
                 userInput = input.getUserInput();
                 try {
                     selectOptionInLineManage(scanner, userInput);
                     break;
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                    LineView.showLineMenuGuide();
-                    continue;
+                    LineView.lineManageOptionInputErrorView(e);
+                    //continue;
                 }
             } catch (Exception e) {
-                System.out.println(e.getMessage());
-                continue;
+                View.showExceptionMessage(e);
             }
         }
     }
@@ -187,6 +176,7 @@ public class Controller {
         LineView.showLineInsertNameGuide();
         UserInput input = new UserInput();
         String userLineNameInput = input.userInput(scanner);
+        LineView.showInsertStartStationInLineGuide();
 
         try {
             addLineInLineRepository(userLineNameInput, input, scanner);
@@ -196,8 +186,8 @@ public class Controller {
     }
 
     public void addLineInLineRepository(String userLineNameInput, UserInput input, Scanner scanner) {
-        LineView.showInsertStartStationInLineGuide();
         String startStationName = input.userInput(scanner);
+
         try {
             Station startStation = StationRepository.getStation(StationRepository.findStationIndex(startStationName));
 
@@ -246,11 +236,10 @@ public class Controller {
                     selectOptionInStationManage(userInput, scanner);
                     break;
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                    StationView.showStationMenuGuide();
+                    StationView.stationManageOptionInputErrorView(e);
                 }
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                View.showExceptionMessage(e);
             }
         }
     }

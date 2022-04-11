@@ -49,4 +49,9 @@ public class StationView extends View {
         StationRepository.getStations().stream().map(station -> (INFO_MESSAGE + station.getName())).forEach(System.out::println);
         return false;
     }
+
+    public static void stationManageOptionInputErrorView(Exception e) {
+        System.out.println(e.getMessage());
+        StationView.showStationMenuGuide();
+    }
 }
