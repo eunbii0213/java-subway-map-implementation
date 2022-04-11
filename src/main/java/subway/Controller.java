@@ -113,7 +113,6 @@ public class Controller {
                     break;
                 } catch (Exception e) {
                     SectionView.sectionManageOptionInputErrorView(e);
-                    //continue;
                 }
             } catch (Exception e) {
                 View.showExceptionMessage(e);
