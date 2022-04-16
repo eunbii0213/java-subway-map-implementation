@@ -2,12 +2,11 @@ package subway.domain;
 
 public class Station {
     private static final int MINIMUM_LENGTH = 2;
-    private String name = "";
+    private final String name;
 
     public static Station createStationEntity(String name) {
         try {
-            Station station = new Station(name);
-            return station;
+            return new Station(name);
         } catch (Exception e) {
             return null;
         }

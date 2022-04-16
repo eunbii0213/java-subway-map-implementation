@@ -34,7 +34,7 @@ public class StationRepository {
 
     public static void deleteStation(String name) {
         try {
-            StationRepository.findStationIndex(name);
+            findStationIndex(name);
             LineRepository.getLines().forEach(line -> line.checkStationExistInLine(name));
 
             stations.removeIf(station -> Objects.equals(station.getName(), name));
@@ -44,12 +44,10 @@ public class StationRepository {
     }
 
     public static Station findStation(String userInput) {
-        for (Station station : stations) {
-            if (station.getName().equals(userInput)) {
-                return station;
-            }
-        }
-        throw new IllegalArgumentException("\n[ERROR] 올바른 역 이름을 입력해주세요.");
+        return stations.stream()
+                .filter(it -> it.getName().equals(userInput))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("\n[ERROR] 올바른 역 이름을 입력해주세요."));
     }
 
     public static int findStationIndex(String userInput) {

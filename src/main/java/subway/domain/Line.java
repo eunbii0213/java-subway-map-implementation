@@ -5,20 +5,17 @@ import subway.repository.StationRepository;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class Line {
     private static final int INITIALIZE_STRING_VARIABLE = 0;
     private static final int MINIMUM_LENGTH = 2;
     private static final int LAST_INDEX = 1;
-    private String name = "";
-    private LinkedList<Station> subwayMap;
+    private final String name;
+    private final LinkedList<Station> subwayMap;
 
     public static Line createLineEntity(String name, Station startStation, Station endStation) {
         try {
-            Line line = new Line(name, startStation, endStation);
-            line.addStationsInLine(startStation.getName(), endStation.getName());
-            return line;
+            return new Line(name, startStation, endStation);
         } catch (Exception e) {
             return null;
         }
@@ -29,6 +26,7 @@ public class Line {
         requireNonNull(startStation, endStation);
         this.name = name;
         subwayMap = new LinkedList<>();
+        addStationsInLine(startStation, endStation);
     }
 
     private void requireNonNull(Object... args) {
@@ -83,12 +81,10 @@ public class Line {
         }
     }
 
-    public void addStationsInLine(String startTarget, String endTarget) {
+    public void addStationsInLine(Station startStation, Station endStation) {
         try {
-            int startStationIndex = StationRepository.findStationIndex(startTarget);
-            int endStationIndex = StationRepository.findStationIndex(endTarget);
-
-            IntStream.rangeClosed(startStationIndex, endStationIndex).forEachOrdered(index -> subwayMap.add(StationRepository.getStation(index)));
+            subwayMap.add(startStation);
+            subwayMap.add(endStation);
         } catch (Exception e) {
             throw new IllegalArgumentException(e.getMessage());
         }

@@ -146,7 +146,6 @@ public class Controller {
                     break;
                 } catch (Exception e) {
                     LineView.lineManageOptionInputErrorView(e);
-                    //continue;
                 }
             } catch (Exception e) {
                 View.showExceptionMessage(e);
@@ -194,12 +193,8 @@ public class Controller {
             String endStationName = input.userInput(scanner);
             Station endStation = StationRepository.getStation(StationRepository.findStationIndex(endStationName));
             LineRepository.addLine(Line.createLineEntity(userLineNameInput, startStation, endStation));
+            LineView.showLineInsertComplete();
 
-            try {
-                LineView.showLineInsertComplete();
-            } catch (Exception e) {
-                LineRepository.removeLastLine();
-            }
         } catch (Exception e) {
             throw new IllegalArgumentException(e.getMessage());
         }
